@@ -3,6 +3,22 @@ extends base
 block css
     link(rel='stylesheet', href='main.css')
 
+block js
+
 block body
+    .search-container
+        .logo-container
+            i.fa.fa-balance-scale(aria-hidden='true')
+            span Quantify
+        span#input ax^2 + bx + c = 0
     script.
         main()
+        var answerSpan = $('#input')[0]
+        var answerMathField = MQ.MathField(answerSpan, {
+            handlers: {
+                edit: function () {
+                    var enteredMath = answerMathField.latex(); // Get entered math in LaTeX format
+                    checkAnswer(enteredMath);
+                }
+            }
+        });

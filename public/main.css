@@ -5,4 +5,4 @@
  * @link https://github.com/parkjs814/Quantify
  * @license MIT
  */
-@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono");body{background:#b2dfdb}
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono");body{background:#b2dfdb;text-align:center;width:100%;font-size:16px;color:#009688}.search-container{display:inline-block;background:white;margin-top:128px;width:60%;padding:64px;border-radius:8px;box-shadow:0 0 16px rgba(0,105,92,0.5)}.logo-container{font-size:3.6em}.logo-container .fa{margin-right:8px}#input{width:75%;height:480px}
