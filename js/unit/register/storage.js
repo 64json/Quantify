@@ -3,14 +3,14 @@ const BaseUnit = require('../base_unit');
 const type = 'storage';
 
 module.exports = () => {
-  BaseUnit.register(type, 'bit', 1);
-  BaseUnit.register(type, 'byte',0.125, 'bit');
-  BaseUnit.register(type, 'kbyte', 1e3, 'byte');
-  BaseUnit.register(type, 'Mbyte', 1e6, 'byte');
-  BaseUnit.register(type, 'Gbyte', 1e9, 'byte');
-  BaseUnit.register(type, 'Tbyte', 1e12, 'byte');
-  BaseUnit.register(type, 'Pm', 1e15, 'byte');
-  BaseUnit.register(type, 'Ebyte', 1e18, 'byte');
-  BaseUnit.register(type, 'Zbyte', 1e21, 'byte');
-  BaseUnit.register(type, 'Ybyte', 1e24, 'byte');
+    BaseUnit.register(type, 'bit', 1);
+    BaseUnit.register(type, 'byte', 0.125, 'bit');
+    BaseUnit.register(type, 'Kilo byte', 'kbyte', 1e3, 'byte');
+    BaseUnit.register(type, 'Mega byte', 'Mbyte', 1e6, 'byte');
+    BaseUnit.register(type, 'Giga byte', 'Gbyte', 1e9, 'byte');
+    BaseUnit.register(type, 'Tera byte', 'Tbyte', 1e12, 'byte');
+    BaseUnit.register(type, 'Peta byte', 'Pm', 1e15, 'byte');
+    BaseUnit.register(type, 'Exa byte', 'Ebyte', 1e18, 'byte');
+    BaseUnit.register(type, 'Zetta byte', 'Zbyte', 1e21, 'byte');
+    BaseUnit.register(type, 'Yotta byte', 'Ybyte', 1e24, 'byte');
 };
