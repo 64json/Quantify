@@ -10,4 +10,6 @@ module.exports = () => {
   BaseUnit.register(type, 'mg', 1e-3, 'g');
   BaseUnit.register(type, 'ng', 1e-9, 'g');
   BaseUnit.register(type, 'pg', 1e-12, 'g');
+  BaseUnit.register(type, 'lb',453.59237,'g');
+  BaseUnit.register(type,'oz',0.0625,'lb');
 };
