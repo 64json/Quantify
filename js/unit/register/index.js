@@ -1,11 +1,11 @@
 const length = require('./length');
 const mass = require('./mass');
 const time = require('./time');
-const speed = require('./speed');
+const angle = require('./angle');
 
 module.exports = () => {
   length();
   mass();
   time();
-  speed();
+  angle();
 };
