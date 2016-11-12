@@ -16,6 +16,18 @@ module.exports = function () {
     return this.unitClasses[type][symbol];
   };
 
+  this.getDerivedUnitClasses = () => {
+    const unitClasses = this.getUnitClasses();
+    const derivedUnitClasses = {};
+    for (const unitSymbol in unitClasses) {
+      const unitClass = unitClasses[unitSymbol];
+      if (!unitClass.BASE) {
+        derivedUnitClasses.push(unitClass);
+      }
+    }
+    return derivedUnitClasses;
+  };
+
   this.getUnitClasses = () => {
     const unitClasses = {};
     for (const quantity in this.unitClasses) {
