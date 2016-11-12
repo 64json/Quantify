@@ -6,6 +6,7 @@ const current = require('./current');
 const temp = require('./temp');
 const matter = require('./matter');
 const intensity = require('./intensity');
+const storage  = require('./storage');
 
 
 module.exports = () => {
@@ -17,4 +18,5 @@ module.exports = () => {
   temp();
   matter();
   intensity();
+  storage();
 };
