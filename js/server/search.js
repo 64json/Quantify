@@ -4,55 +4,55 @@ const app = require('../app');
 const {extend} = $;
 
 class Combination {
-  constructor(mulTypes, divTypes, unitless, countCalculation = true) {
-    this.mulTypes = mulTypes;
-    this.divTypes = divTypes;
-    this.unitless = unitless;
+  constructor(derivedQuantities, baseQuantities, countCalculation = true) {
+    this.derivedQuantities = derivedQuantities;
+    this.baseQuantities = baseQuantities;
     if (countCalculation) this.calculateCount();
   }
 
   calculateCount() {
-    var count = this.mulTypes.length + this.divTypes.length;
-    for (const type in this.unitless.types) {
-      count += Math.abs(this.unitless.types[type]);
+    var count = 0;
+    for (const type in this.derivedQuantities) {
+      count += Math.abs(this.derivedQuantities[type]);
+    }
+    for (const type in this.baseQuantities) {
+      count += Math.abs(this.baseQuantities[type]);
     }
     this.count = count;
   }
 
-  createMulClassAdded(mulClass) {
-    const new_ = new Combination(this.mulTypes.slice(), this.divTypes.slice(), extend(true, {}, this.unitless), false);
-    new_.mulTypes.push(mulClass.TYPE);
-    const unitless = mulClass.UNITLESS;
-    for (const type in unitless.types) {
-      if (!new_.unitless.types.hasOwnProperty(type)) {
-        new_.unitless.types[type] = +unitless.types[type];
-      } else {
-        new_.unitless.types[type] += unitless.types[type];
-      }
-      if (new_.unitless.types[type] == 0) {
-        delete unitless.types[type];
-      }
+  countDerivedUnits() {
+    var count = 0;
+    for (const type in this.derivedQuantities) {
+      count += Math.abs(this.derivedQuantities[type]);
     }
-    new_.unitless.quantity *= unitless.quantity;
-    new_.calculateCount();
-    return new_;
+    return count;
   }
 
-  createDivClassAdded(divClass) {
-    const new_ = new Combination(this.mulTypes.slice(), this.divTypes.slice(), extend(true, {}, this.unitless), false);
-    new_.divTypes.push(divClass.TYPE);
-    const unitless = divClass.UNITLESS;
-    for (const type in unitless.types) {
-      if (!new_.unitless.types.hasOwnProperty(type)) {
-        new_.unitless.types[type] = -unitless.types[type];
+  create(quantity, inverse) {
+    const factor = inverse ? -1 : 1;
+    const new_ = new Combination(extend(true, {}, this.derivedQuantities), extend(true, {}, this.baseQuantities), false);
+
+    const type = quantity.name;
+    if (!new_.derivedQuantities.hasOwnProperty(type)) {
+      new_.derivedQuantities[type] = factor;
+    } else {
+      if (new_.derivedQuantities[type] / factor < 0) return null;
+      new_.derivedQuantities[type] += factor;
+    }
+
+    const types = quantity.types;
+    for (const type in types) {
+      if (!new_.baseQuantities.hasOwnProperty(type)) {
+        new_.baseQuantities[type] = -factor * types[type];
       } else {
-        new_.unitless.types[type] -= unitless.types[type];
+        new_.baseQuantities[type] -= factor * types[type];
       }
-      if (new_.unitless.types[type] == 0) {
-        delete unitless.types[type];
+      if (new_.baseQuantities[type] == 0) {
+        delete new_.baseQuantities[type];
       }
     }
-    new_.unitless.quantity /= unitless.quantity;
+
     new_.calculateCount();
     return new_;
   }
@@ -60,8 +60,8 @@ class Combination {
 
 module.exports = (str) => {
   const value = 1;
-  const mulSymbols = ['lb', 'm', 'm'];
-  const divSymbols = ['s', 's'];
+  const mulSymbols = ['N', 's', 's'];
+  const divSymbols = [];
 
   const mulPairs = [];
   const divPairs = [];
@@ -76,26 +76,26 @@ module.exports = (str) => {
 
   const {mulClasses, divClasses} = Util.getMulAndDivClasses(mulPairs, divPairs);
   const unitless = Util.getUnitless(mulClasses, divClasses);
-  const queue = [new Combination([], [], unitless)];
+  const queue = [new Combination({}, unitless.types)];
 
-  const derivedUnitClasses = app.getDerivedUnitClasses();
-  console.log(derivedUnitClasses);
+  const quantities = app.getDerivedQuantities();
+  console.log(quantities);
   var minCount = 0x7fffffff;
   var minCombinations = [];
   while (queue.length > 0) {
     const e = queue.shift();
-    console.log(e);
+    if (e == null) continue;
     if (minCount > e.count) {
       minCount = e.count;
       minCombinations = [e];
     } else if (minCount == e.count) {
       minCombinations.push(e);
     }
-    if (e.mulTypes.length + e.divTypes.length < 1) {
-      for (const unitSymbol in derivedUnitClasses) {
-        const unitClass = derivedUnitClasses[unitSymbol];
-        queue.push(e.createMulClassAdded(unitClass));
-        queue.push(e.createDivClassAdded(unitClass));
+    if (e.countDerivedUnits() < 4) {
+      for (const quantityName in quantities) {
+        const quantity = quantities[quantityName];
+        queue.push(e.create(quantity, false));
+        queue.push(e.create(quantity, true));
       }
     }
   }

@@ -16,16 +16,18 @@ module.exports = function () {
     return this.unitClasses[type][symbol];
   };
 
-  this.getDerivedUnitClasses = () => {
-    const unitClasses = this.getUnitClasses();
-    const derivedUnitClasses = {};
-    for (const unitSymbol in unitClasses) {
-      const unitClass = unitClasses[unitSymbol];
-      if (!unitClass.BASE) {
-        derivedUnitClasses[unitSymbol] = unitClass;
+  this.getDerivedQuantities = () => {
+    const quantities = {};
+    for (const quantityName in this.unitClasses) {
+      const unitClasses = this.unitClasses[quantityName];
+      const unitClass = unitClasses[Object.keys(unitClasses)[0]];
+      if (unitClass.BASE) continue;
+      quantities[quantityName] = {
+        name: quantityName,
+        types: unitClass.UNITLESS.types
       }
     }
-    return derivedUnitClasses;
+    return quantities;
   };
 
   this.getUnitClasses = () => {
