@@ -8,6 +8,18 @@ const matter = require('./matter');
 const intensity = require('./intensity');
 const storage  = require('./storage');
 const joule = require('./joule');
+const pascal = require('./pascal');
+const Newton = require('./Newton');
+const watt = require('./watt');
+const coulomb = require('./coulomb');
+const volt = require('./volt');
+const farad = require('./farad');
+const ohm = require('./ohm');
+const siemens = require('./siemens');
+const weber = require('./tesla');
+const henry = require('./henry');
+
+
 
 module.exports = () => {
   length();
@@ -20,4 +32,17 @@ module.exports = () => {
   intensity();
   storage();
   joule();
+  pascal();
+  Newton();
+  hertz();
+  watt();
+  coulomb();
+  volt();
+  farad();
+  ohm();
+  siemens();
+  weber();
+  tesla();
+  henry();
+
 };
