@@ -1,11 +1,9 @@
 const BaseUnit = require('./base_unit');
 const DerivedUnit = require('./derived_unit');
-const length = require('./length');
+const register = require('./register');
 
 module.exports = {
   BaseUnit,
   DerivedUnit,
-  units: {
-    length
-  }
+  register
 };
