@@ -7,6 +7,7 @@ class DerivedUnit {
   }
 }
 
+DerivedUnit.BASE = DerivedUnit.prototype.base = false;
 DerivedUnit.TYPE = DerivedUnit.prototype.type = null;
 DerivedUnit.SYMBOL = DerivedUnit.prototype.symbol = null;
 DerivedUnit.MULS = DerivedUnit.prototype.muls = [];
@@ -17,7 +18,7 @@ DerivedUnit.register = (type, symbol, muls, divs) => {
   const divClasses = [];
 
   const queue = [];
-  muls.forEach(mul -> {
+  muls.forEach(mul => {
     const type = mul[0];
     const symbol = mul[1];
     queue.push({
@@ -25,7 +26,7 @@ DerivedUnit.register = (type, symbol, muls, divs) => {
       inverse: false
     });
   });
-  divs.forEach(div -> {
+  divs.forEach(div => {
     const type = div[0];
     const symbol = div[1];
     queue.push({
@@ -36,16 +37,16 @@ DerivedUnit.register = (type, symbol, muls, divs) => {
 
   while (queue.length > 0) {
     const e = queue.shift();
-    if (e.cls instanceof BaseUnit) {
+    if (e.cls.BASE) {
       (e.inverse ? divClasses : mulClasses).push(e.cls);
-    } else if (e.cls instanceof DerivedUnit) {
-      e.cls.MULS.forEach(mulClass -> {
+    } else {
+      e.cls.MULS.forEach(mulClass => {
         queue.push({
           cls: mulClass,
           inverse: e.inverse
         });
       });
-      e.cls.DIVS.forEach(divClass -> {
+      e.cls.DIVS.forEach(divClass => {
         queue.push({
           cls: divClass,
           inverse: !e.inverse
@@ -54,7 +55,7 @@ DerivedUnit.register = (type, symbol, muls, divs) => {
     }
   }
 
-  class Unit extends ParentUnit {
+  class Unit extends DerivedUnit {
     constructor(value = 1) {
       super(value);
     }

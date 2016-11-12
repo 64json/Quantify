@@ -6,6 +6,7 @@ class BaseUnit {
   }
 }
 
+BaseUnit.BASE = BaseUnit.prototype.base = true;
 BaseUnit.TYPE = BaseUnit.prototype.type = null;
 BaseUnit.SYMBOL = BaseUnit.prototype.symbol = null;
 BaseUnit.QUANTITY = BaseUnit.prototype.quantity = 1;
