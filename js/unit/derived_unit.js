@@ -13,8 +13,8 @@ DerivedUnit.SYMBOL = DerivedUnit.prototype.symbol = null;
 DerivedUnit.MULS = DerivedUnit.prototype.muls = [];
 DerivedUnit.DIVS = DerivedUnit.prototype.divs = [];
 
-DerivedUnit.register = (type, symbol, muls, divs) => {
-  const {mulClasses, divClasses} = Util.getMulAndDivClasses(muls, divs);
+DerivedUnit.register = (type, symbol, mulPairs, divPairs) => {
+  const {mulClasses, divClasses} = Util.getMulAndDivClasses(mulPairs, divPairs);
 
   class Unit extends DerivedUnit {
     constructor(value = 1) {

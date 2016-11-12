@@ -1,19 +1,21 @@
-module.exports = (muls, divs) => {
+const app = require('../app');
+
+module.exports = (mulPairs, divPairs) => {
   const mulClasses = [];
   const divClasses = [];
 
   const queue = [];
-  muls.forEach(mul => {
-    const type = mul[0];
-    const symbol = mul[1];
+  mulPairs.forEach(mulPair => {
+    const type = mulPair[0];
+    const symbol = mulPair[1];
     queue.push({
       cls: app.getUnitClass(type, symbol),
       inverse: false
     });
   });
-  divs.forEach(div => {
-    const type = div[0];
-    const symbol = div[1];
+  divPairs.forEach(divPair => {
+    const type = divPair[0];
+    const symbol = divPair[1];
     queue.push({
       cls: app.getUnitClass(type, symbol),
       inverse: true

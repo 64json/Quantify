@@ -1,3 +1,5 @@
+const {extend} = $
+
 module.exports = function () {
   this.unitClasses = {};
 
@@ -15,6 +17,10 @@ module.exports = function () {
   };
 
   this.getUnitClasses = () => {
-    return this.unitClasses;
+    const unitClasses = {};
+    for (const quantity in this.unitClasses) {
+      extend(true, unitClasses, this.unitClasses[quantity]);
+    }
+    return unitClasses;
   }
 };

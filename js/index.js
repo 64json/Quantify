@@ -1,6 +1,6 @@
 const RSVP = require('rsvp');
 const DOM = require('./dom');
-const Converter = require('./Converter');
+const Server = require('./server');
 const app = require('./app');
 const App = require('./app/constructor');
 const Unit = require('./unit');
@@ -16,6 +16,5 @@ extend(true, app, new App());
 Unit.register();
 
 extend(true, window, {
-  main: DOM.setupMain,
-  Converter
+  main: DOM.setupMain
 });
