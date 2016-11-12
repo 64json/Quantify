@@ -16,6 +16,4 @@ module.exports = () => {
   BaseUnit.register(type,'d',24, 'hr');
   BaseUnit.register(type, 'w',7, 'd');
   BaseUnit.register(type, 'mon',4,'w');
-
-
 };

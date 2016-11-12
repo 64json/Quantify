@@ -14,8 +14,4 @@ module.exports = () => {
   BaseUnit.register(type, 'yd', 3.000, 'ft');
   BaseUnit.register(type, 'mi', 1760, 'yd');
   BaseUnit.register(type, 'in',1.5783e-5,'mi');
-
-
-
-
 };
