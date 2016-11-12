@@ -8,7 +8,6 @@ const matter = require('./matter');
 const intensity = require('./intensity');
 
 
-
 module.exports = () => {
   length();
   mass();
