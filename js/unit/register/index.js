@@ -17,7 +17,8 @@ const farad = require('./farad');
 const ohm = require('./ohm');
 const siemens = require('./siemens');
 const weber = require('./tesla');
-const henry = require('./henry');
+const lux = require('./lux');
+
 
 
 
@@ -44,5 +45,6 @@ module.exports = () => {
   weber();
   tesla();
   henry();
+  lux();
 
 };
