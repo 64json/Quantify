@@ -10,13 +10,15 @@ const storage  = require('./storage');
 const joule = require('./joule');
 const pascal = require('./pascal');
 const Newton = require('./Newton');
+const hertz = require('./hertz');
 const watt = require('./watt');
 const coulomb = require('./coulomb');
 const volt = require('./volt');
 const farad = require('./farad');
 const ohm = require('./ohm');
 const siemens = require('./siemens');
-const weber = require('./tesla');
+const weber = require('./weber');
+const tesla = require('./tesla');
 const henry = require('./henry');
 
 

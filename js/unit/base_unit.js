@@ -9,12 +9,12 @@ class BaseUnit {
 BaseUnit.BASE = BaseUnit.prototype.base = true;
 BaseUnit.QUANTITY = BaseUnit.prototype.quantity = 1;
 
-BaseUnit.register = (type, symbol, quantity, parentSymbol = null) => {
+BaseUnit.register = (type, symbol, quantity = 1, parentSymbol = null) => {
   const ParentUnit = parentSymbol ? app.getUnitClass(type, parentSymbol) : BaseUnit;
   quantity *= ParentUnit.QUANTITY;
 
   class Unit extends ParentUnit {
-    constructor(value = 1) {
+    constructor(value) {
       super(value);
     }
   }

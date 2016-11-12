@@ -22,7 +22,7 @@ module.exports = function () {
     for (const unitSymbol in unitClasses) {
       const unitClass = unitClasses[unitSymbol];
       if (!unitClass.BASE) {
-        derivedUnitClasses.push(unitClass);
+        derivedUnitClasses[unitSymbol] = unitClass;
       }
     }
     return derivedUnitClasses;
