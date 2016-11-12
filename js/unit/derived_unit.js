@@ -10,7 +10,7 @@ class DerivedUnit {
 DerivedUnit.BASE = DerivedUnit.prototype.base = false;
 DerivedUnit.QUANTITY = DerivedUnit.prototype.quantity = 1;
 
-DerivedUnit.register = (type, symbol, mulPairs, divPairs, quantity = 1, parentSymbol = null) => {
+DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, parentSymbol = null) => {
   const {mulClasses, divClasses} = Util.getMulAndDivClasses(mulPairs, divPairs);
 
   const ParentUnit = parentSymbol ? app.getUnitClass(type, parentSymbol) : DerivedUnit;
@@ -23,6 +23,7 @@ DerivedUnit.register = (type, symbol, mulPairs, divPairs, quantity = 1, parentSy
   }
 
   Unit.TYPE = Unit.prototype.type = type;
+  Unit.NAME = Unit.prototype.name = name;
   Unit.SYMBOL = Unit.prototype.symbol = symbol;
   Unit.MULS = Unit.prototype.muls = mulClasses;
   Unit.DIVS = Unit.prototype.divs = divClasses;
