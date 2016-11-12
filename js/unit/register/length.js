@@ -10,4 +10,12 @@ module.exports = () => {
   BaseUnit.register(type, 'µm', 1e-6, 'm');
   BaseUnit.register(type, 'nm', 1e-9, 'm');
   BaseUnit.register(type, 'pm', 1e-12, 'm');
+  BaseUnit.register(type, 'ft', 0.3048, 'm');
+  BaseUnit.register(type, 'yd', 3.000, 'ft');
+  BaseUnit.register(type, 'mi', 1760, 'yd');
+  BaseUnit.register(type, 'in',1.5783e-5,'mi');
+
+
+
+
 };
