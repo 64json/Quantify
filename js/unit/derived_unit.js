@@ -8,10 +8,6 @@ class DerivedUnit {
 }
 
 DerivedUnit.BASE = DerivedUnit.prototype.base = false;
-DerivedUnit.TYPE = DerivedUnit.prototype.type = null;
-DerivedUnit.SYMBOL = DerivedUnit.prototype.symbol = null;
-DerivedUnit.MULS = DerivedUnit.prototype.muls = [];
-DerivedUnit.DIVS = DerivedUnit.prototype.divs = [];
 
 DerivedUnit.register = (type, symbol, mulPairs, divPairs) => {
   const {mulClasses, divClasses} = Util.getMulAndDivClasses(mulPairs, divPairs);
@@ -26,6 +22,7 @@ DerivedUnit.register = (type, symbol, mulPairs, divPairs) => {
   Unit.SYMBOL = Unit.prototype.symbol = symbol;
   Unit.MULS = Unit.prototype.muls = mulClasses;
   Unit.DIVS = Unit.prototype.divs = divClasses;
+  Unit.UNITLESS = Util.getUnitless(mulClasses, divClasses);
 
   app.addUnitClass(Unit);
 };

@@ -7,6 +7,7 @@ const temp = require('./temp');
 const matter = require('./matter');
 const intensity = require('./intensity');
 const storage  = require('./storage');
+const joule = require('./joule');
 
 module.exports = () => {
   length();
@@ -18,4 +19,5 @@ module.exports = () => {
   matter();
   intensity();
   storage();
+  joule();
 };
