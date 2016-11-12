@@ -1,6 +1,7 @@
 const app = require('../app');
 
+const unitClasses = app.getUnitClasses();
+
 module.exports = (muls, divs, val) => {
-  console.log(app);
-  console.log(app.getUnitClasses());
+
 };
