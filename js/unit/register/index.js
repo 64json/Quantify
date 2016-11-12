@@ -20,6 +20,8 @@ const siemens = require('./siemens');
 const weber = require('./weber');
 const tesla = require('./tesla');
 const henry = require('./henry');
+const lux = require('./lux');
+
 
 
 
@@ -46,5 +48,5 @@ module.exports = () => {
   weber();
   tesla();
   henry();
-
+  lux();
 };
