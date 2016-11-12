@@ -1,6 +1,6 @@
 const RSVP = require('rsvp');
 const DOM = require('./dom');
-const Server = require('./server');
+const Converter = require('./Converter');
 const app = require('./app');
 const App = require('./app/constructor');
 const {extend} = $;
@@ -11,5 +11,6 @@ RSVP.on('error', function (reason) {
 });
 
 extend(true, window, {
-  main: DOM.setupMain
+  main: DOM.setupMain,
+  Converter
 });

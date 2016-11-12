@@ -5,5 +5,7 @@ const length = require('./length');
 module.exports = {
   BaseUnit,
   DerivedUnit,
-  length
+  units: {
+    length
+  }
 };
