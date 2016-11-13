@@ -1,6 +1,6 @@
 const DerivedUnit = require('../derived_unit');
 
-const type = 'Newton';
+const type = 'force';
 
 module.exports = () => {
   DerivedUnit.register(type, 'Newtons', 'N', [['mass', 'Kg'], ['length', 'm']], [['time', 's'], ['time', 's']]);
