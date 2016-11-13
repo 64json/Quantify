@@ -1,4 +1,6 @@
-const {extend} = $
+const DerivedUnit = require('../unit/derived_unit');
+
+const {extend} = $;
 
 module.exports = function () {
   this.unitClasses = {};
@@ -41,8 +43,13 @@ module.exports = function () {
   this.getStandardUnitClass = (quantity) => {
     const unitClasses = this.unitClasses[quantity];
     for (const symbol in unitClasses) {
-      const unitClass = unitClasses[symbol];
+      var unitClass = unitClasses[symbol];
       if (unitClass.QUANTITY == 1) {
+        if (!unitClass.BASE) {
+          while (unitClass.PARENT !== DerivedUnit) {
+            unitClass = unitClass.PARENT;
+          }
+        }
         return unitClass;
       }
     }

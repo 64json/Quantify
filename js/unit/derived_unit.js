@@ -36,6 +36,7 @@ DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, pa
   Unit.QUANTITY = Unit.prototype.quantity = quantity;
   Unit.UNITLESS = Server.getUnitless(mulClasses, divClasses);
   Unit.UNITLESS.quantity = quantity;
+  Unit.PARENT = ParentUnit;
 
   app.addUnitClass(Unit);
 };

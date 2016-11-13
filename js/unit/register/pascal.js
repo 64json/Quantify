@@ -11,6 +11,6 @@ module.exports = () => {
   DerivedUnit.register(type, 'milli pascal', 'mPa', [], [], 1e-3, 'Pa');
   DerivedUnit.register(type, 'micro pascal', 'μPa', [], [], 1e-6, 'Pa');
   DerivedUnit.register(type, 'nano pascal', 'nPa', [], [], 1e-9, 'Pa');
-  DerivedUnit.register(type, 'atmosphere','atm',[],[],101325,'Pa');
+  DerivedUnit.register(type, 'atmosphere', 'atm', [], [], 101325, 'Pa');
 
 };

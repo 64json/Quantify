@@ -8,7 +8,6 @@ module.exports = () => {
     if (event.keyCode == 13) {
 
       const unitless = Server.refineLaTeX(mathField.latex());
-      console.log(unitless);
       if (isNaN(unitless)) {
         const combinations = Server.search(unitless);
         $('.result-container:not(.template)').remove();
@@ -62,7 +61,7 @@ const getLaTeX = (unitless, factor, powers) => {
       }
     }
   }
-  var latex = unitless.quantity * factor + '\\ ' + mulSymbols.join('\\cdot ');
+  var latex = unitless.quantity / factor + '\\ ' + mulSymbols.join('\\cdot ');
   if (divSymbols.length) {
     if (divSymbols.length > 1) {
       latex += ' / (' + divSymbols.join('\\cdot ') + ')';
