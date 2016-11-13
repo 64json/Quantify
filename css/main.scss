@@ -27,6 +27,7 @@ body {
 }
 
 .logo-wrapper {
+  margin-top: 16px;
   font-size: 3.6em;
   .fa {
     margin-right: 8px;
@@ -34,22 +35,46 @@ body {
 }
 
 .input-wrapper {
-  display: inline-block;
-  width: 75%;
-  margin: 16px;
+  display: inline-flex;
+  margin: 48px 16px 16px 16px;
   border: 4px solid $teal-darken-1;
   min-height: 2.4em;
   font-size: 1.5em;
   vertical-align: middle;
   line-height: 2.4em;
   border-radius: 8px;
+  width: 80%;
 }
 
 #input {
-  display: inline-block;
+  display: inline-flex;
   border: none;
   box-shadow: none;
-  width: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  transition: background .3s, color .3s;
+  &.active {
+    color: white;
+    background: $teal-darken-1;
+  }
+  &.error {
+    color: white;
+    background: #e53935;
+  }
+}
+
+#equal {
+  display: inline-block;
+  width: 80px;
+  cursor: pointer;
+  line-height: 50px;
+  background: $teal-darken-1;
+  font-size: 2em;
+  color: white;
+  &:before {
+    content: "=";
+  }
 }
 
 .answer {
@@ -64,7 +89,7 @@ body {
 }
 
 .template {
-  visibility: hidden;
+  display: none;
 }
 
 .variation-wrapper {

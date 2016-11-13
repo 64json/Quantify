@@ -3,20 +3,34 @@ const app = require('../../app');
 
 module.exports = () => {
   const $input = $('#input');
-  var mathField = MQ.MathField($input[0]);
+  var config = {
+    handlers: {
+      edit: () => {
+        $input.removeClass('active error');
+      }
+    }
+  };
+  var mathField = MQ.MathField($input[0], config);
+  const $equal = $('#equal');
+  $equal.click(()=> {
+    try {
+      const unitless = Server.refineLaTeX(mathField.latex());
+      const combinations = Server.search(unitless);
+      $('.result-container:not(.template)').remove();
+      const MAX_SHOWN = 10;
+      combinations.every((combination, i) => {
+        renderCombination(unitless, combination);
+        return i + 1 < MAX_SHOWN;
+      });
+      $input.addClass('active');
+    } catch(err) {
+      console.error(err);
+      $input.addClass('error');
+    }
+  });
   $input.keyup(function (event) {
     if (event.keyCode == 13) {
-
-      const unitless = Server.refineLaTeX(mathField.latex());
-      if (isNaN(unitless)) {
-        const combinations = Server.search(unitless);
-        $('.result-container:not(.template)').remove();
-        const MAX_SHOWN = 10;
-        combinations.every((combination, i) => {
-          renderCombination(unitless, combination);
-          return i + 1 < MAX_SHOWN;
-        });
-      }
+      $equal.click();
     }
   });
 };
@@ -56,7 +70,6 @@ const renderCombination = (unitless, combination) => {
       const $li = $(`<li>${symbol}</li>`);
       $li.click(function () {
         const symbol = $(this).text();
-        $selected.text(symbol);
         for (const power of powers) {
           const unitClass = unitClasses[symbol];
           if (power[0].TYPE == quantity) {
