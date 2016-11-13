@@ -4,11 +4,17 @@ const app = require('../app');
 module.exports = latex => {
   const unitClasses = app.getUnitClasses();
   latex = latex.replace(/\\ /g, '');
-  latex = infiniteReplace(latex, /\\frac{([^{}]+)}{([^{}]+)}/g, '($1)/($2)');
+
+  var replaced = null;
+  while (replaced != latex) {
+    latex = replaced || latex;
+    replaced = latex;
+    replaced = infiniteReplace(replaced, /\(([^()]+)\)\^/g, '[($1)]^');
+    replaced = infiniteReplace(replaced, /\^{([^{}]+)}/g, '^($1)');
+    replaced = infiniteReplace(replaced, /\\frac{([^{}]+)}{([^{}]+)}/g, '($1)/($2)');
+  }
   latex = latex.replace(/\\left\(/g, '(');
   latex = latex.replace(/\\right\)/g, ')');
-  latex = infiniteReplace(latex, /\(([^()]+)\)\^/g, '[($1)]^');
-  latex = infiniteReplace(latex, /\^{([^{}]+)}/g, '^($1)');
   latex = latex.replace(/\\cdot/g, '*');
   latex = latex.replace(/(\\| )/g, '');
   latex = latex.replace(/(?!a-zA-ZΩ°µ)((?:[a-zA-Z]|Ω|°|µ)+)(?!a-zA-ZΩ°µ)/g, (match, symbol) => {
@@ -23,13 +29,9 @@ module.exports = latex => {
         content = replaced || content;
         replaced = content;
         replaced = replaced.replace(/\[([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)]\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value, power)=> {
-          console.log(value);
-          console.log(power);
           return Math.pow(value, power);
         });
-        replaced = replaced.replace(/(\+?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value, power)=> {
-          console.log(value);
-          console.log(power);
+        replaced = replaced.replace(/([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value, power)=> {
           return Math.pow(value, power);
         });
         replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, power)=> {
@@ -49,13 +51,12 @@ module.exports = latex => {
       while (replaced != content) {
         content = replaced || content;
         replaced = content;
-        replaced = replaced.replace(/([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\*|\/)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value1, sign, value2)=> {
+        replaced = replaced.replace(/([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\*|\/)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value1, sign, value2)=> {
           value1 = Number(value1);
           value2 = Number(value2);
-          const result = sign == '/' ? value1 / value2 : value1 * value2;
-          return (result >= 0 ? '+' : '') + result;
+          return sign == '/' ? value1 / value2 : value1 * value2;
         });
-        replaced = replaced.replace(/([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\*|\/|)\$\$([^(\$\$)]+)\$\$/g, (match, value, sign, unitless)=> {
+        replaced = replaced.replace(/([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\*|\/|)\$\$([^(\$\$)]+)\$\$/g, (match, value, sign, unitless)=> {
           return MDUnitlesses({types: {}, quantity: Number(value)}, sign, JSON.parse(unitless));
         });
         replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\*|\/|)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, sign, value)=> {
@@ -79,16 +80,20 @@ module.exports = latex => {
         replaced = replaced.replace(/([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\+|-)\$\$([^(\$\$)]+)\$\$/g, (match, value, sign, unitless)=> {
           return PMUnitlesses({types: {}, quantity: Number(value)}, sign, JSON.parse(unitless));
         });
-        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\+|-)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, sign, value)=> {
-          return PMUnitlesses(JSON.parse(unitless), sign, {types: {}, quantity: Number(value)});
+        replaced = replaced.replace(/([-+]?)\$\$([^(\$\$)]+)\$\$(\+|-)([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, sign1, unitless, sign2, value)=> {
+          unitless = JSON.parse(unitless);
+          unitless.quantity *= sign1 == '-' ? -1 : 1;
+          return PMUnitlesses(unitless, sign2, {types: {}, quantity: Number(value)});
         });
-        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\+|-)\$\$([^(\$\$)]+)\$\$/g, (match, unitless1, sign, unitless2)=> {
-          return PMUnitlesses(JSON.parse(unitless1), sign, JSON.parse(unitless2));
+        replaced = replaced.replace(/([-+]?)\$\$([^(\$\$)]+)\$\$(\+|-)\$\$([^(\$\$)]+)\$\$/g, (match, sign1, unitless1, sign2, unitless2)=> {
+          unitless1 = JSON.parse(unitless1);
+          unitless1.quantity *= sign1 == '-' ? -1 : 1;
+          return PMUnitlesses(unitless1, sign2, JSON.parse(unitless2));
         });
       }
+
       return content;
     });
-//  latex = infiniteReplace(latex, /\(([^()+-]+)\)/g, '$1');
 
   console.log(latex);
   return latex;
@@ -110,11 +115,11 @@ const MDUnitlesses = (unitless1, sign, unitless2) => {
       delete unitless1.types[type];
     }
   }
-  return '+$$' + JSON.stringify(unitless1) + '$$';
+  return '$$' + JSON.stringify(unitless1) + '$$';
 };
 
 const PMUnitlesses = (unitless1, sign, unitless2) => {
-  if (Object.keys(unitless1.types).length != Object.keys(unitless2).length) return null;
+  if (Object.keys(unitless1.types).length != Object.keys(unitless2.types).length) return null;
   for (const type in unitless2.types) {
     if (unitless2.types[type] != unitless1.types[type]) return null;
   }
