@@ -53,6 +53,6 @@ module.exports = function () {
         return unitClass;
       }
     }
-    return null;
+    return unitClasses[Object.keys(unitClasses)[0]];
   }
 };

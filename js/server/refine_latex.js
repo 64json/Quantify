@@ -45,7 +45,14 @@ module.exports = latex => {
           return '$$' + JSON.stringify(unitless) + '$$';
         };
         replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, dst);
-        replaced = replaced.replace(/\[\$\$([^(\$\$)]+)\$\$\]\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, dst);
+        replaced = replaced.replace(/\[([-+]?)\$\$([^(\$\$)]+)\$\$\]\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, sign, unitless, power) => {
+          if (sign == '-') {
+            unitless = JSON.parse(unitless);
+            unitless.quantity *= -1;
+            unitless = JSON.stringify(unitless);
+          }
+          return dst(match, unitless, power);
+        });
       }
 
       replaced = null;
@@ -60,7 +67,7 @@ module.exports = latex => {
         replaced = replaced.replace(/([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)(\*|\/|)\$\$([^(\$\$)]+)\$\$/g, (match, value, sign, unitless)=> {
           return MDUnitlesses({types: {}, quantity: Number(value)}, sign, JSON.parse(unitless));
         });
-        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\*|\/|)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, sign, value)=> {
+        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\*|\/)([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, sign, value)=> {
           return MDUnitlesses(JSON.parse(unitless), sign, {types: {}, quantity: Number(value)});
         });
         replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$(\*|\/|)\$\$([^(\$\$)]+)\$\$/g, (match, unitless1, sign, unitless2)=> {
@@ -92,7 +99,6 @@ module.exports = latex => {
           return PMUnitlesses(unitless1, sign2, JSON.parse(unitless2));
         });
       }
-
       return content;
     });
 
