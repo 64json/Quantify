@@ -59,18 +59,18 @@ class Combination {
 }
 
 module.exports = (unitless) => {
+  const MAX_COMBINATION = 10;
   const queue = [new Combination({}, unitless.types, null)];
   const quantities = app.getDerivedQuantities();
-  var minCount = 0x7fffffff;
-  var minCombinations = [];
+  var combinations = [];
+  for (var i = 0; i < MAX_COMBINATION; i++) {
+    combinations.push([]);
+  }
   while (queue.length > 0) {
     const e = queue.shift();
     if (e == null) continue;
-    if (minCount > e.count) {
-      minCount = e.count;
-      minCombinations = [e];
-    } else if (minCount == e.count) {
-      minCombinations.push(e);
+    if (e.count < MAX_COMBINATION) {
+      combinations[e.count].push(e);
     }
     if (e.countDerivedUnits() < 4) {
       var start = e.lastQuantity == null;
@@ -83,5 +83,11 @@ module.exports = (unitless) => {
       }
     }
   }
-  return minCombinations;
+  var plain = [];
+  for (const cs of combinations) {
+    for (const c of cs) {
+      plain.push(c);
+    }
+  }
+  return plain;
 };

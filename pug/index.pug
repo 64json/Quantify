@@ -15,5 +15,18 @@ block body
     .container.result-container.template
         .answer
         .variation-wrapper
+            - for (var i=0; i<3; i++){
+            .selector-wrapper
+                span.quantity Length
+                .selector
+                    span.selected meter
+                    ul
+                        li meter
+                        li kilometer
+                        li feet
+                        li mile
+                        li centimeter
+            - }
+
     script.
         main();

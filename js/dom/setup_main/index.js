@@ -8,12 +8,14 @@ module.exports = () => {
     if (event.keyCode == 13) {
 
       const unitless = Server.refineLaTeX(mathField.latex());
+      console.log(unitless);
       if (isNaN(unitless)) {
         const combinations = Server.search(unitless);
-        console.log(combinations);
         $('.result-container:not(.template)').remove();
-        combinations.forEach(combination => {
+        const MAX_SHOWN = 10;
+        combinations.every((combination, i) => {
           renderCombination(unitless, combination);
+          return i + 1 < MAX_SHOWN;
         });
       }
     }
@@ -32,8 +34,19 @@ const renderCombination = (unitless, combination) => {
     }
   }
 
-  var mulSymbols = [], divSymbols = [];
+  const latex = getLaTeX(unitless, factor, powers);
 
+  const $templateResultContainer = $('.result-container.template');
+  const $resultContainer = $templateResultContainer.clone();
+  const $answer = $resultContainer.find('.answer');
+  $resultContainer.removeClass('template');
+  $answer.text(latex);
+  var staticMath = MQ.StaticMath($answer[0]);
+  $resultContainer.insertBefore($templateResultContainer);
+};
+
+const getLaTeX = (unitless, factor, powers) => {
+  var mulSymbols = [], divSymbols = [];
   for (const power of powers) {
     if (power[1] > 0) {
       if (power[1] > 1) {
@@ -49,7 +62,7 @@ const renderCombination = (unitless, combination) => {
       }
     }
   }
-  var latex = unitless.quantity * factor + ' ' + mulSymbols.join('\\cdot ');
+  var latex = unitless.quantity * factor + '\\ ' + mulSymbols.join('\\cdot ');
   if (divSymbols.length) {
     if (divSymbols.length > 1) {
       latex += ' / (' + divSymbols.join('\\cdot ') + ')';
@@ -57,12 +70,5 @@ const renderCombination = (unitless, combination) => {
       latex += ' / ' + divSymbols[0];
     }
   }
-
-  const $templateResultContainer = $('.result-container.template');
-  const $resultContainer = $templateResultContainer.clone();
-  const $answer = $resultContainer.find('.answer');
-  $resultContainer.removeClass('template');
-  $answer.text(latex);
-  var staticMath = MQ.StaticMath($answer[0]);
-  $resultContainer.insertBefore($templateResultContainer);
+  return latex;
 };

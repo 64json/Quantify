@@ -9,12 +9,18 @@ class DerivedUnit {
 
 DerivedUnit.BASE = DerivedUnit.prototype.base = false;
 DerivedUnit.QUANTITY = DerivedUnit.prototype.quantity = 1;
+DerivedUnit.MULS = DerivedUnit.prototype.muls = [];
+DerivedUnit.DIVS = DerivedUnit.prototype.divs = [];
 
 DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, parentSymbol = null) => {
-  const {mulClasses, divClasses} = Server.getMulAndDivClasses(mulPairs, divPairs);
+  var {mulClasses, divClasses} = Server.getMulAndDivClasses(mulPairs, divPairs);
 
   const ParentUnit = parentSymbol ? app.getUnitClass(type, parentSymbol) : DerivedUnit;
   quantity *= ParentUnit.QUANTITY;
+  for (const mulClass of mulClasses) quantity *= mulClass.QUANTITY;
+  for (const divClass of divClasses) quantity /= divClass.QUANTITY;
+  mulClasses = ParentUnit.MULS.concat(mulClasses);
+  divClasses = ParentUnit.DIVS.concat(divClasses);
 
   class Unit extends ParentUnit {
     constructor(value) {
@@ -29,6 +35,7 @@ DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, pa
   Unit.DIVS = Unit.prototype.divs = divClasses;
   Unit.QUANTITY = Unit.prototype.quantity = quantity;
   Unit.UNITLESS = Server.getUnitless(mulClasses, divClasses);
+  Unit.UNITLESS.quantity = quantity;
 
   app.addUnitClass(Unit);
 };

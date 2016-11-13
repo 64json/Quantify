@@ -12,7 +12,7 @@ body {
   display: inline-block;
   background: white;
   width: 60%;
-  padding: 64px;
+  padding: 48px;
   border-radius: 8px;
   box-shadow: 0 0 16px transparentize($teal-darken-2, .5);
 }
@@ -23,6 +23,9 @@ body {
 
 .result-container {
   margin-top: 24px;
+  & > * {
+    float: left;
+  }
 }
 
 .logo-wrapper {
@@ -52,10 +55,68 @@ body {
 }
 
 .answer {
-  float: left;
   font-size: 2em;
+  margin-right: 56px;
+  text-align: left;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .template {
   display: none;
+}
+
+.variation-wrapper {
+  margin-top: -48px;
+  margin-bottom: -48px;
+  height: 176px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.selector-wrapper {
+  display: flex;
+  flex-grow: 1;
+  color: white;
+  & > * {
+    float: left;
+  }
+  .quantity {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: $teal-lighten-3;
+    width: 120px;
+  }
+
+  &:hover .selector ul {
+    display: block;
+  }
+}
+
+.selector {
+  display: flex;
+  .selected {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: $teal-lighten-2;
+    width: 160px;
+  }
+  ul {
+    display: none;
+    position: absolute;
+    background: $teal-lighten-1;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      display: block;
+      width: 120px;
+      padding: 12px;
+    }
+  }
 }
