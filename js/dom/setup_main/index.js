@@ -61,7 +61,13 @@ const getLaTeX = (unitless, factor, powers) => {
       }
     }
   }
-  var latex = unitless.quantity / factor + '\\ ' + mulSymbols.join('\\cdot ');
+  var value = unitless.quantity / factor;
+  if (Math.abs(value) > 1e5 || Math.abs(value) < 1e-5) {
+    value = value.toExponential(5);
+  } else {
+    value = value.toPrecision(5);
+  }
+  var latex = value + '\\ ' + mulSymbols.join('\\cdot ');
   if (divSymbols.length) {
     if (divSymbols.length > 1) {
       latex += ' / (' + divSymbols.join('\\cdot ') + ')';
