@@ -17,7 +17,8 @@ module.exports = latex => {
   latex = latex.replace(/\\right\)/g, ')');
   latex = latex.replace(/\\cdot/g, '*');
   latex = latex.replace(/(\\| )/g, '');
-  latex = latex.replace(/(?!a-zA-ZΩ°µ)((?:[a-zA-Z]|Ω|°|µ)+)(?!a-zA-ZΩ°µ\d)/g, (match, symbol) => {
+  latex = latex.replace(/(?!a-zA-ZΩ°µ)((?:[a-zA-Z]|Ω|°|µ)+)(?!a-zA-ZΩ°µ)/g, (match, symbol) => {
+    if (symbol.toLowerCase() == 'e') return symbol;
     return '$$' + JSON.stringify(unitClasses[symbol].UNITLESS) + '$$';
   });
   latex = infiniteReplace(latex, /(?:\(|^)([^()]+)(?:\)|$)/g,
