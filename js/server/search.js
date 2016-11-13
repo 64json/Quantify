@@ -3,9 +3,10 @@ const app = require('../app');
 const {extend} = $;
 
 class Combination {
-  constructor(derivedQuantities, baseQuantities, countCalculation = true) {
+  constructor(derivedQuantities, baseQuantities, lastQuantity, countCalculation = true) {
     this.derivedQuantities = derivedQuantities;
     this.baseQuantities = baseQuantities;
+    this.lastQuantity = lastQuantity;
     if (countCalculation) this.calculateCount();
   }
 
@@ -30,7 +31,7 @@ class Combination {
 
   create(quantity, inverse) {
     const factor = inverse ? -1 : 1;
-    const new_ = new Combination(extend(true, {}, this.derivedQuantities), extend(true, {}, this.baseQuantities), false);
+    const new_ = new Combination(extend(true, {}, this.derivedQuantities), extend(true, {}, this.baseQuantities), quantity.name, false);
 
     const type = quantity.name;
     if (!new_.derivedQuantities.hasOwnProperty(type)) {
@@ -58,7 +59,7 @@ class Combination {
 }
 
 module.exports = (unitless) => {
-  const queue = [new Combination({}, unitless.types)];
+  const queue = [new Combination({}, unitless.types, null)];
   const quantities = app.getDerivedQuantities();
   var minCount = 0x7fffffff;
   var minCombinations = [];
@@ -71,8 +72,11 @@ module.exports = (unitless) => {
     } else if (minCount == e.count) {
       minCombinations.push(e);
     }
-    if (e.countDerivedUnits() < 3) {
+    if (e.countDerivedUnits() < 4) {
+      var start = e.lastQuantity == null;
       for (const quantityName in quantities) {
+        if (quantityName == e.lastQuantity) start = true;
+        if (!start) continue;
         const quantity = quantities[quantityName];
         queue.push(e.create(quantity, false));
         queue.push(e.create(quantity, true));
