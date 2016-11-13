@@ -3,7 +3,8 @@ const app = require('../app/index');
 module.exports = latex => {
   const unitClasses = app.getUnitClasses();
   latex = latex.replace(/\\ /g, '');
-
+  latex = latex.replace(/\\left\(/g, '(');
+  latex = latex.replace(/\\right\)/g, ')');
   var replaced = null;
   while (replaced != latex) {
     latex = replaced || latex;
@@ -12,8 +13,6 @@ module.exports = latex => {
     replaced = infiniteReplace(replaced, /\^{([^{}]+)}/g, '^($1)');
     replaced = infiniteReplace(replaced, /\\frac{([^{}]+)}{([^{}]+)}/g, '($1)/($2)');
   }
-  latex = latex.replace(/\\left\(/g, '(');
-  latex = latex.replace(/\\right\)/g, ')');
   latex = latex.replace(/\\cdot/g, '*');
   latex = latex.replace(/(\\| )/g, '');
   latex = latex.replace(/(?!a-zA-ZΩ°µ)((?:[a-zA-Z]|Ω|°|µ)+)(?!a-zA-ZΩ°µ)/g, (match, symbol) => {
@@ -34,7 +33,7 @@ module.exports = latex => {
         replaced = replaced.replace(/([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, value, power)=> {
           return Math.pow(value, power);
         });
-        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, (match, unitless, power)=> {
+        const dst = (match, unitless, power) => {
           unitless = JSON.parse(unitless);
           unitless.quantity = Math.pow(unitless.quantity, power);
           for (const type in unitless.types) {
@@ -44,7 +43,9 @@ module.exports = latex => {
             }
           }
           return '$$' + JSON.stringify(unitless) + '$$';
-        });
+        };
+        replaced = replaced.replace(/\$\$([^(\$\$)]+)\$\$\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, dst);
+        replaced = replaced.replace(/\[\$\$([^(\$\$)]+)\$\$\]\^([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)/g, dst);
       }
 
       replaced = null;
@@ -98,7 +99,7 @@ module.exports = latex => {
   if (isNaN(latex)) {
     var [sign, unitless] = latex.split('$$');
     unitless = JSON.parse(unitless);
-    if (sign == '-1') unitless.quantity *= -1;
+    if (sign == '-') unitless.quantity *= -1;
     return unitless;
   }
   return latex
