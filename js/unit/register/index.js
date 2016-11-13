@@ -7,7 +7,7 @@ const temp = require('./temp');
 const matter = require('./matter');
 const intensity = require('./intensity');
 const storage = require('./storage');
-const joule = require('./joule');
+const energy = require('./energy');
 const pascal = require('./pascal');
 const Newton = require('./Newton');
 const hertz = require('./hertz');
@@ -21,6 +21,9 @@ const weber = require('./weber');
 const tesla = require('./tesla');
 const henry = require('./henry');
 const lux = require('./lux');
+const volume = require('./volume');
+const area = require('./area');
+
 
 module.exports = () => {
   length();
@@ -32,7 +35,7 @@ module.exports = () => {
   matter();
   intensity();
   storage();
-  joule();
+  energy();
   pascal();
   Newton();
   hertz();
@@ -46,4 +49,6 @@ module.exports = () => {
   tesla();
   henry();
   lux();
+  volume();
+  area();
 };
