@@ -66,7 +66,7 @@ module.exports = (unitless) => {
   for (var i = 0; i < MAX_COMBINATION; i++) {
     combinations.push([]);
   }
-  while (queue.length > 0) {
+  while (queue.length) {
     const e = queue.shift();
     if (e == null) continue;
     if (e.count < MAX_COMBINATION) {

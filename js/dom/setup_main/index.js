@@ -1,6 +1,9 @@
 const Server = require('../../server');
 const app = require('../../app');
 
+const MAX_SHOWN = 10;
+var scrollHandler = null;
+
 module.exports = () => {
   const $input = $('#input');
   var config = {
@@ -17,13 +20,25 @@ module.exports = () => {
       const unitless = Server.evalLaTeX(mathField.latex());
       const combinations = Server.search(unitless);
       $('.result-container:not(.template)').remove();
-      const MAX_SHOWN = 10;
-      combinations.every((combination, i) => {
-        renderCombination(unitless, combination);
-        return i + 1 < MAX_SHOWN;
-      });
+
+      if (scrollHandler) $(window).off('scroll', scrollHandler);
+      scrollHandler = () => {
+        const $lastContainer = $('.container:not(.template)').last();
+        if ($lastContainer.offset().top + $lastContainer.outerHeight() < $(window).scrollTop() + $(window).height()) {
+          console.log('a');
+          var i = 0;
+          while (combinations.length) {
+            const combination = combinations.shift();
+            renderCombination(unitless, combination);
+            if (i++ >= MAX_SHOWN) break;
+          }
+        }
+      };
+      scrollHandler();
+      $(window).scroll(scrollHandler);
+
       $input.addClass('active');
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       $input.addClass('error');
     }
