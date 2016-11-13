@@ -3,7 +3,7 @@ const DerivedUnit = require('../derived_unit');
 const type = 'telsa';
 
 module.exports = () => {
-  DerivedUnit.register(type, 'telsa', 'T', [['mass', 'kg']], [['time', 's'], ['time', 's'], ['current', 'A']]);
+  DerivedUnit.register(type, 'telsa', 'T', [['mass', 'Kg']], [['time', 's'], ['time', 's'], ['current', 'A']]);
   DerivedUnit.register(type, 'Kilo telsa', 'KT', [], [], 1e3, 'T');
   DerivedUnit.register(type, 'Mega telsa', 'MT', [], [], 1e6, 'T');
   DerivedUnit.register(type, 'Giga telsa', 'GT', [], [], 1e9, 'T');

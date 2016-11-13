@@ -36,5 +36,16 @@ module.exports = function () {
       extend(true, unitClasses, this.unitClasses[quantity]);
     }
     return unitClasses;
+  };
+
+  this.getStandardUnitClass = (quantity) => {
+    const unitClasses = this.unitClasses[quantity];
+    for (const symbol in unitClasses) {
+      const unitClass = unitClasses[symbol];
+      if (unitClass.QUANTITY == 1) {
+        return unitClass;
+      }
+    }
+    return null;
   }
 };

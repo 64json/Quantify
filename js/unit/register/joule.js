@@ -3,7 +3,7 @@ const DerivedUnit = require('../derived_unit');
 const type = 'joule';
 
 module.exports = () => {
-  DerivedUnit.register(type, 'joule', 'J', [['mass', 'kg'], ['length', 'm'], ['length', 'm']], [['time', 's'], ['time', 's']]);
+  DerivedUnit.register(type, 'joule', 'J', [['mass', 'Kg'], ['length', 'm'], ['length', 'm']], [['time', 's'], ['time', 's']]);
   DerivedUnit.register(type, 'Kilo joule', 'KJ', [], [], 1e3, 'J');
   DerivedUnit.register(type, 'Mega joule', 'MJ', [], [], 1e6, 'J');
   DerivedUnit.register(type, 'Giga joule', 'GJ', [], [], 1e9, 'J');

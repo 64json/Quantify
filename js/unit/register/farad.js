@@ -3,7 +3,7 @@ const DerivedUnit = require('../derived_unit');
 const type = 'farad';
 
 module.exports = () => {
-  DerivedUnit.register(type, 'farad', 'F', [['time', 's'], ['time', 's'], ['time', 's'], ['time', 's'], ['current', 'A'], ['current', 'A']], [['mass', 'kg'], ['length', 'm'], ['length', 'm']]);
+  DerivedUnit.register(type, 'farad', 'F', [['time', 's'], ['time', 's'], ['time', 's'], ['time', 's'], ['current', 'A'], ['current', 'A']], [['mass', 'Kg'], ['length', 'm'], ['length', 'm']]);
   DerivedUnit.register(type, 'Kilo farad', 'KF', [], [], 1e3, 'F');
   DerivedUnit.register(type, 'Mega farad', 'MF', [], [], 1e6, 'F');
   DerivedUnit.register(type, 'Giga farad', 'GF', [], [], 1e9, 'F');

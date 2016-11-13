@@ -3,7 +3,7 @@ const DerivedUnit = require('../derived_unit');
 const type = 'pascal';
 
 module.exports = () => {
-  DerivedUnit.register(type, 'pascal', 'Pa', [['mass', 'kg']], [['length', 'm'], ['time', 's'], ['time', 's']]);
+  DerivedUnit.register(type, 'pascal', 'Pa', [['mass', 'Kg']], [['length', 'm'], ['time', 's'], ['time', 's']]);
   DerivedUnit.register(type, 'Kilo pascal', 'KPa', [], [], 1e3, 'Pa');
   DerivedUnit.register(type, 'Mega pascal', 'MPa', [], [], 1e6, 'Pa');
   DerivedUnit.register(type, 'Giga pascal', 'GPa', [], [], 1e9, 'Pa');

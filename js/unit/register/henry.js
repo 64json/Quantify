@@ -3,7 +3,7 @@ const DerivedUnit = require('../derived_unit');
 const type = 'henry';
 
 module.exports = () => {
-  DerivedUnit.register(type, 'henry', 'H', [['mass', 'kg'], ['length', 'm'], ['length', 'm']], [['time', 's'], ['time', 's'], ['current', 'A'], ['current', 'A']]);
+  DerivedUnit.register(type, 'henry', 'H', [['mass', 'Kg'], ['length', 'm'], ['length', 'm']], [['time', 's'], ['time', 's'], ['current', 'A'], ['current', 'A']]);
   DerivedUnit.register(type, 'Kilo henry', 'KH', [], [], 1e3, 'H');
   DerivedUnit.register(type, 'Mega henry', 'MH', [], [], 1e6, 'H');
   DerivedUnit.register(type, 'Giga henry', 'GH', [], [], 1e9, 'H');
