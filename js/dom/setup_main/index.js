@@ -42,6 +42,36 @@ const renderCombination = (unitless, combination) => {
   $answer.text(latex);
   var staticMath = MQ.StaticMath($answer[0]);
   $resultContainer.insertBefore($templateResultContainer);
+  const $templateSelectorWrapper = $resultContainer.find('.selector-wrapper.template');
+  for (const [unitClass] of powers) {
+    const quantity = unitClass.TYPE;
+    const $selectorWrapper = $templateSelectorWrapper.clone();
+    $selectorWrapper.removeClass('template');
+    $selectorWrapper.find('.quantity').text(quantity);
+    const $selected = $selectorWrapper.find('.selected');
+    $selected.text(unitClass.SYMBOL);
+    const $ul = $selectorWrapper.find('ul');
+    const unitClasses = app.getUnitClasses(quantity);
+    for (const symbol in unitClasses) {
+      const $li = $(`<li>${symbol}</li>`);
+      $li.click(function () {
+        const symbol = $(this).text();
+        $selected.text(symbol);
+        for (const power of powers) {
+          const unitClass = unitClasses[symbol];
+          if (power[0].TYPE == quantity) {
+            factor /= Math.pow(power[0].QUANTITY, power[1]);
+            power[0] = unitClass;
+            factor *= Math.pow(power[0].QUANTITY, power[1]);
+          }
+        }
+        const latex = getLaTeX(unitless, factor, powers);
+        staticMath.latex(latex);
+      });
+      $ul.append($li);
+    }
+    $selectorWrapper.insertBefore($templateSelectorWrapper);
+  }
 };
 
 const getLaTeX = (unitless, factor, powers) => {

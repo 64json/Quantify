@@ -83,7 +83,6 @@ module.exports = (unitless) => {
       }
     }
   }
-  console.log(combinations);
   var plain = [];
   for (const cs of combinations) {
     for (const c of cs) {

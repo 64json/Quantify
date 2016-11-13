@@ -32,7 +32,8 @@ module.exports = function () {
     return quantities;
   };
 
-  this.getUnitClasses = () => {
+  this.getUnitClasses = (q) => {
+    if (q) return this.unitClasses[q];
     const unitClasses = {};
     for (const quantity in this.unitClasses) {
       extend(true, unitClasses, this.unitClasses[quantity]);
