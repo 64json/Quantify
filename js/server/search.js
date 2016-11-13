@@ -79,7 +79,6 @@ module.exports = (str) => {
   const queue = [new Combination({}, unitless.types)];
 
   const quantities = app.getDerivedQuantities();
-  console.log(quantities);
   var minCount = 0x7fffffff;
   var minCombinations = [];
   while (queue.length > 0) {
@@ -91,7 +90,7 @@ module.exports = (str) => {
     } else if (minCount == e.count) {
       minCombinations.push(e);
     }
-    if (e.countDerivedUnits() < 4) {
+    if (e.countDerivedUnits() < 3) {
       for (const quantityName in quantities) {
         const quantity = quantities[quantityName];
         queue.push(e.create(quantity, false));
@@ -99,5 +98,4 @@ module.exports = (str) => {
       }
     }
   }
-  console.log(minCombinations);
 };

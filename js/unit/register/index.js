@@ -6,7 +6,7 @@ const current = require('./current');
 const temp = require('./temp');
 const matter = require('./matter');
 const intensity = require('./intensity');
-const storage  = require('./storage');
+const storage = require('./storage');
 const joule = require('./joule');
 const pascal = require('./pascal');
 const Newton = require('./Newton');
@@ -21,9 +21,6 @@ const weber = require('./weber');
 const tesla = require('./tesla');
 const henry = require('./henry');
 const lux = require('./lux');
-
-
-
 
 module.exports = () => {
   length();
