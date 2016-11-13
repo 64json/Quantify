@@ -9,7 +9,7 @@ const intensity = require('./intensity');
 const storage = require('./storage');
 const energy = require('./energy');
 const pressure = require('./pressure');
-const Newton = require('./Newton');
+const force = require('./force');
 const hertz = require('./hertz');
 const watt = require('./watt');
 const coulomb = require('./coulomb');
@@ -37,7 +37,7 @@ module.exports = () => {
   storage();
   energy();
   pressure();
-  Newton();
+  force();
   hertz();
   watt();
   coulomb();
