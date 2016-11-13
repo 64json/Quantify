@@ -6,7 +6,7 @@ module.exports = () => {
   BaseUnit.register(type, 'seconds', 's', 1);
   BaseUnit.register(type, 'deci seconds', 'ds', 1e-1, 's');
   BaseUnit.register(type, 'centi seconds', 'cs', 1e-2, 's');
-  BaseUnit.register(type, 'Kilo seconds', 'ks', 1e3, 's');
+  BaseUnit.register(type, 'Kilo seconds', 'Ks', 1e3, 's');
   BaseUnit.register(type, 'milli seconds', 'ms', 1e-3, 's');
   BaseUnit.register(type, 'micro seconds', 'µs', 1e-6, 's');
   BaseUnit.register(type, 'nano seconds', 'ns', 1e-9, 's');

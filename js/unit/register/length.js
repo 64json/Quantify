@@ -5,7 +5,7 @@ const type = 'length';
 module.exports = () => {
   BaseUnit.register(type, 'meter', 'm', 1);
   BaseUnit.register(type, 'centi meter', 'cm', 1e-2, 'm');
-  BaseUnit.register(type, 'Kilo meter', 'km', 1e3, 'm');
+  BaseUnit.register(type, 'Kilo meter', 'Km', 1e3, 'm');
   BaseUnit.register(type, 'milli meter', 'mm', 1e-3, 'm');
   BaseUnit.register(type, 'micro meter', 'µm', 1e-6, 'm');
   BaseUnit.register(type, 'nano meter', 'nm', 1e-9, 'm');
