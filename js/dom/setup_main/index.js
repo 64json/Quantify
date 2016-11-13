@@ -1,7 +1,7 @@
 const Server = require('../../server');
 const app = require('../../app');
 
-const MAX_SHOWN = 10;
+const PER_PAGE = 10;
 var scrollHandler = null;
 
 module.exports = () => {
@@ -30,13 +30,16 @@ module.exports = () => {
           while (combinations.length) {
             const combination = combinations.shift();
             renderCombination(unitless, combination);
-            if (i++ >= MAX_SHOWN) break;
+            if (i++ >= PER_PAGE) break;
           }
         }
       };
       scrollHandler();
       $(window).scroll(scrollHandler);
 
+      $('html, body').animate({
+        scrollTop: $('.search-container').offset().top
+      }, 300);
       $input.addClass('active');
     } catch (err) {
       console.error(err);
