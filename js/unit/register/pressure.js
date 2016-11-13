@@ -1,6 +1,6 @@
 const DerivedUnit = require('../derived_unit');
 
-const type = 'pascal';
+const type = 'pressure';
 
 module.exports = () => {
   DerivedUnit.register(type, 'pascal', 'Pa', [['mass', 'Kg']], [['length', 'm'], ['time', 's'], ['time', 's']]);

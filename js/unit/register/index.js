@@ -8,7 +8,7 @@ const matter = require('./matter');
 const intensity = require('./intensity');
 const storage = require('./storage');
 const energy = require('./energy');
-const pascal = require('./pascal');
+const pressure = require('./pressure');
 const Newton = require('./Newton');
 const hertz = require('./hertz');
 const watt = require('./watt');
@@ -36,7 +36,7 @@ module.exports = () => {
   intensity();
   storage();
   energy();
-  pascal();
+  pressure();
   Newton();
   hertz();
   watt();
