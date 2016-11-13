@@ -67,7 +67,7 @@ body {
   display: inline-block;
   width: 80px;
   cursor: pointer;
-  line-height: 50px;
+  line-height: 58px;
   background: $teal-darken-1;
   font-size: 2em;
   color: white;
@@ -210,6 +210,10 @@ body {
       margin-bottom: 4px;
     }
   }
+}
+
+.github-fork-ribbon:before {
+  background: $teal !important
 }
 
 @media only screen and (max-width: 1080px) {
