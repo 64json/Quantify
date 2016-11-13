@@ -102,7 +102,7 @@ module.exports = latex => {
     if (sign == '-') unitless.quantity *= -1;
     return unitless;
   }
-  return latex
+  return {types: {}, quantity: Number(latex)};
 };
 
 const MDUnitlesses = (unitless1, sign, unitless2) => {
