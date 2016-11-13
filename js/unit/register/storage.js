@@ -5,7 +5,7 @@ const type = 'storage';
 module.exports = () => {
   BaseUnit.register(type, 'bit', 'bit', 1);
   BaseUnit.register(type, 'byte', 'byte', 0.125, 'bit');
-  BaseUnit.register(type, 'Kilo byte', 'kbyte', 1e3, 'byte');
+  BaseUnit.register(type, 'Kilo byte', 'Kbyte', 1e3, 'byte');
   BaseUnit.register(type, 'Mega byte', 'Mbyte', 1e6, 'byte');
   BaseUnit.register(type, 'Giga byte', 'Gbyte', 1e9, 'byte');
   BaseUnit.register(type, 'Tera byte', 'Tbyte', 1e12, 'byte');
