@@ -24,7 +24,8 @@ module.exports = () => {
       if (scrollHandler) $(window).off('scroll', scrollHandler);
       scrollHandler = () => {
         const $lastContainer = $('.container:not(.template)').last();
-        if ($lastContainer.offset().top + $lastContainer.outerHeight() < $(window).scrollTop() + $(window).height()) {
+        const scrollBottom = $(window).scrollTop() + $(window).height();
+        if ($lastContainer.offset().top + $lastContainer.outerHeight() < scrollBottom) {
           console.log('a');
           var i = 0;
           while (combinations.length) {
@@ -33,6 +34,11 @@ module.exports = () => {
             if (i++ >= PER_PAGE) break;
           }
         }
+        $('.result-container:not(.appear):not(.template)').each(function () {
+          if ($(this).offset().top < scrollBottom) {
+            $(this).addClass('appear');
+          }
+        });
       };
       scrollHandler();
       $(window).scroll(scrollHandler);
@@ -51,6 +57,18 @@ module.exports = () => {
       $equal.click();
     }
   });
+
+  const $templateUnitWrapper = $('.unit-wrapper.template');
+  const unitClasses = app.getUnitClasses(true);
+  for (const quantity in unitClasses) {
+    const $unitWrapper = $templateUnitWrapper.clone();
+    $unitWrapper.removeClass('template');
+    $unitWrapper.find('.quantity').text(quantity);
+    for (const symbol in unitClasses[quantity]) {
+      $unitWrapper.find('ul').append(`<li>${symbol} (${unitClasses[quantity][symbol].NAME})</li>`);
+    }
+    $unitWrapper.insertBefore($templateUnitWrapper);
+  }
 };
 
 const renderCombination = (unitless, combination) => {
