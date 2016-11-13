@@ -70,6 +70,7 @@ const renderCombination = (unitless, combination) => {
       const $li = $(`<li>${symbol}</li>`);
       $li.click(function () {
         const symbol = $(this).text();
+        $selected.text(symbol);
         for (const power of powers) {
           const unitClass = unitClasses[symbol];
           if (power[0].TYPE == quantity) {

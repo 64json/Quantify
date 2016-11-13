@@ -24,10 +24,8 @@ module.exports = latex => {
       return '$$' + JSON.stringify({types: {}, quantity: Number(value)}) + '$$';
     }
   });
-  console.log(latex);
   latex = infiniteReplace(latex, /(?:\(|^)([^()]+)(?:\)|$)/g,
     (match, content) => {
-      console.log(content);
       content = infiniteReplace(content, /\$\$([^($$)]+)\$\$\^\$\$([^($$)]+)\$\$/g, (match, unitless1, unitless2) => {
         return powerUnitlesses(JSON.parse(unitless1), JSON.parse(unitless2));
       });
@@ -41,7 +39,6 @@ module.exports = latex => {
       });
 
       if (content[0] == '+') content = content.substring(1);
-      console.log(content);
       return content;
     });
 
@@ -49,6 +46,7 @@ module.exports = latex => {
 };
 
 const powerUnitlesses = (unitless1, unitless2) => {
+  if (Object.keys(unitless2.types).length) return null;
   const power = unitless2.quantity;
   unitless1.quantity = Math.pow(unitless1.quantity, power);
   for (const type in unitless1.types) {
