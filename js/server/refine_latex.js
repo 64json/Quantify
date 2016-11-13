@@ -1,5 +1,4 @@
-const Util = require('../util');
-const app = require('../app');
+const app = require('../app/index');
 
 module.exports = latex => {
   const unitClasses = app.getUnitClasses();
@@ -96,8 +95,13 @@ module.exports = latex => {
       return content;
     });
 
-  console.log(latex);
-  return latex;
+  if (isNaN(latex)) {
+    var [sign, unitless] = latex.split('$$');
+    unitless = JSON.parse(unitless);
+    if (sign == '-1') unitless.quantity *= -1;
+    return unitless;
+  }
+  return latex
 };
 
 const MDUnitlesses = (unitless1, sign, unitless2) => {

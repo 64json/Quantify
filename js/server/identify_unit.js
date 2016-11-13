@@ -1,4 +1,4 @@
-const app = require('../app');
+const app = require('../app/index');
 
 module.exports = (symbol) => {
   const unitClasses = app.getUnitClasses();

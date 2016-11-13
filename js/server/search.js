@@ -1,4 +1,3 @@
-const Util = require('../util');
 const app = require('../app');
 
 const {extend} = $;
@@ -58,26 +57,8 @@ class Combination {
   }
 }
 
-module.exports = (str) => {
-  const value = 1;
-  const mulSymbols = ['N', 's', 's'];
-  const divSymbols = [];
-
-  const mulPairs = [];
-  const divPairs = [];
-  mulSymbols.forEach(mul => {
-    const mulClass = Util.identifyUnit(mul);
-    mulPairs.push([mulClass.TYPE, mulClass.SYMBOL]);
-  });
-  divSymbols.forEach(div => {
-    const divClass = Util.identifyUnit(div);
-    divPairs.push([divClass.TYPE, divClass.SYMBOL]);
-  });
-
-  const {mulClasses, divClasses} = Util.getMulAndDivClasses(mulPairs, divPairs);
-  const unitless = Util.getUnitless(mulClasses, divClasses);
+module.exports = (unitless) => {
   const queue = [new Combination({}, unitless.types)];
-
   const quantities = app.getDerivedQuantities();
   var minCount = 0x7fffffff;
   var minCombinations = [];
@@ -98,4 +79,5 @@ module.exports = (str) => {
       }
     }
   }
+  return minCombinations;
 };
