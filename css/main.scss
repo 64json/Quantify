@@ -8,17 +8,24 @@ body {
   color: $teal-darken-1;
 }
 
-.search-container {
+.container {
   display: inline-block;
   background: white;
-  margin-top: 128px;
   width: 60%;
   padding: 64px;
   border-radius: 8px;
   box-shadow: 0 0 16px transparentize($teal-darken-2, .5);
 }
 
-.logo-container {
+.search-container {
+  margin-top: 128px;
+}
+
+.result-container {
+  margin-top: 24px;
+}
+
+.logo-wrapper {
   font-size: 3.6em;
   .fa {
     margin-right: 8px;
@@ -42,4 +49,13 @@ body {
   border: none;
   box-shadow: none;
   width: 100%;
+}
+
+.answer {
+  float: left;
+  font-size: 2em;
+}
+
+.template {
+  display: none;
 }

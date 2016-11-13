@@ -6,11 +6,14 @@ block css
 block js
 
 block body
-    .search-container
-        .logo-container
+    .container.search-container
+        .logo-wrapper
             i.fa.fa-balance-scale(aria-hidden='true')
             span Quantify
         .input-wrapper
             span#input
+    .container.result-container.template
+        .answer
+        .variation-wrapper
     script.
         main();
