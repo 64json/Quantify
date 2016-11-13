@@ -14,7 +14,7 @@ module.exports = () => {
   const $equal = $('#equal');
   $equal.click(()=> {
     try {
-      const unitless = Server.refineLaTeX(mathField.latex());
+      const unitless = Server.evalLaTeX(mathField.latex());
       const combinations = Server.search(unitless);
       $('.result-container:not(.template)').remove();
       const MAX_SHOWN = 10;
