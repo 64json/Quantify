@@ -11,10 +11,11 @@ body {
 .container {
   display: inline-block;
   background: white;
-  width: 60%;
+  width: 72%;
   padding: 48px;
   border-radius: 8px;
   box-shadow: 0 0 16px transparentize($teal-darken-2, .5);
+  box-sizing: border-box;
 }
 
 .search-container {
@@ -105,7 +106,7 @@ body {
   }
 
   &:hover .selector ul {
-    display: block;
+    visibility: visible;
   }
 }
 
@@ -122,7 +123,7 @@ body {
     width: 120px;
   }
   ul {
-    display: none;
+    visibility: hidden;
     position: absolute;
     background: $teal-lighten-1;
     padding: 0;
@@ -136,9 +137,46 @@ body {
       box-sizing: border-box;
       cursor: pointer;
       transition: background .3s;
-      &:hover{
+      &:hover {
         background: $teal;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .answer {
+    width: 100%;
+    text-align: center;
+  }
+  .variation-wrapper {
+    float: none;
+    padding-top: 24px;
+    margin: 0 -24px -24px -24px;
+    .quantity, .selector {
+      width: 50%;
+    }
+    .selected {
+      width: 100%;
+    }
+    ul {
+      width: 36%;
+      li {
+        padding: 24px;
+        width: 100%;
+      }
+    }
+    height: auto;
+  }
+
+  .selector-wrapper {
+    height: 72px;
+    &.template {
+      height: 0;
+    }
+  }
+
+  .container {
+    padding: 24px;
   }
 }
