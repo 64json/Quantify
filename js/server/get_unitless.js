@@ -1,20 +1,20 @@
-module.exports = (mulClasses, divClasses) => {
+module.exports = (muls, divs) => {
   let quantity = 1;
   const types = {};
-  mulClasses.forEach(mulClass => {
-    quantity *= mulClass.QUANTITY;
-    if (types.hasOwnProperty(mulClass.TYPE)) {
-      types[mulClass.TYPE]++;
+  muls.forEach(mul => {
+    quantity *= mul.QUANTITY;
+    if (mul.TYPE in types) {
+      types[mul.TYPE]++;
     } else {
-      types[mulClass.TYPE] = 1;
+      types[mul.TYPE] = 1;
     }
   });
-  divClasses.forEach(divClass => {
-    quantity /= divClass.QUANTITY;
-    if (types.hasOwnProperty(divClass.TYPE)) {
-      types[divClass.TYPE]--;
+  divs.forEach(div => {
+    quantity /= div.QUANTITY;
+    if (div.TYPE in types) {
+      types[div.TYPE]--;
     } else {
-      types[divClass.TYPE] = -1;
+      types[div.TYPE] = -1;
     }
   });
   const refinedTypes = {};

@@ -34,7 +34,7 @@ class Combination {
     const new_ = new Combination(extend(true, {}, this.derivedQuantities), extend(true, {}, this.baseQuantities), quantity.name, false);
 
     const type = quantity.name;
-    if (!new_.derivedQuantities.hasOwnProperty(type)) {
+    if (!(type in new_.derivedQuantities)) {
       new_.derivedQuantities[type] = factor;
     } else {
       if (new_.derivedQuantities[type] / factor < 0) return null;
@@ -43,7 +43,7 @@ class Combination {
 
     const types = quantity.types;
     for (const type in types) {
-      if (!new_.baseQuantities.hasOwnProperty(type)) {
+      if (!(type in new_.baseQuantities)) {
         new_.baseQuantities[type] = -factor * types[type];
       } else {
         new_.baseQuantities[type] -= factor * types[type];

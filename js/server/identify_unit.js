@@ -1,9 +1,9 @@
 const app = require('../app/index');
 
 module.exports = (symbol) => {
-  const unitClasses = app.getUnits();
-  for (const unitSymbol in unitClasses) {
-    const unitClass = unitClasses[unitSymbol];
-    if (unitClass.SYMBOL == symbol) return unitClass;
+  const units = app.getUnits();
+  for (const unitSymbol in units) {
+    const unit = units[unitSymbol];
+    if (unit.SYMBOL == symbol) return unit;
   }
 };

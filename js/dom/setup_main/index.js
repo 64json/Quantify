@@ -59,13 +59,13 @@ module.exports = () => {
   });
 
   const $templateUnitWrapper = $('.unit-wrapper.template');
-  const unitClasses = app.getUnits(true);
-  for (const quantity in unitClasses) {
+  const units = app.getUnits(true);
+  for (const quantity in units) {
     const $unitWrapper = $templateUnitWrapper.clone();
     $unitWrapper.removeClass('template');
     $unitWrapper.find('.quantity').text(quantity);
-    for (const symbol in unitClasses[quantity]) {
-      $unitWrapper.find('ul').append(`<li>${symbol} (${unitClasses[quantity][symbol].NAME})</li>`);
+    for (const symbol in units[quantity]) {
+      $unitWrapper.find('ul').append(`<li>${symbol} (${units[quantity][symbol].NAME})</li>`);
     }
     $unitWrapper.insertBefore($templateUnitWrapper);
   }
@@ -77,9 +77,9 @@ const renderCombination = (unitless, combination) => {
 
   for (const quantities of [combination.derivedQuantities, combination.baseQuantities]) {
     for (const quantity in quantities) {
-      const unitClass = app.getStandardUnit(quantity);
-      factor *= Math.pow(unitClass.QUANTITY, quantities[quantity]);
-      powers.push([unitClass, quantities[quantity]]);
+      const unit = app.getStandardUnit(quantity);
+      factor *= Math.pow(unit.QUANTITY, quantities[quantity]);
+      powers.push([unit, quantities[quantity]]);
     }
   }
 
@@ -93,25 +93,25 @@ const renderCombination = (unitless, combination) => {
   let staticMath = MQ.StaticMath($answer[0]);
   $resultContainer.insertBefore($templateResultContainer);
   const $templateSelectorWrapper = $resultContainer.find('.selector-wrapper.template');
-  for (const [unitClass] of powers) {
-    const quantity = unitClass.TYPE;
+  for (const [unit] of powers) {
+    const quantity = unit.TYPE;
     const $selectorWrapper = $templateSelectorWrapper.clone();
     $selectorWrapper.removeClass('template');
     $selectorWrapper.find('.quantity').text(quantity);
     const $selected = $selectorWrapper.find('.selected');
-    $selected.text(unitClass.SYMBOL);
+    $selected.text(unit.SYMBOL);
     const $ul = $selectorWrapper.find('ul');
-    const unitClasses = app.getUnits(quantity);
-    for (const symbol in unitClasses) {
+    const units = app.getUnits(quantity);
+    for (const symbol in units) {
       const $li = $(`<li>${symbol}</li>`);
       $li.click(function () {
         const symbol = $(this).text();
         $selected.text(symbol);
         for (const power of powers) {
-          const unitClass = unitClasses[symbol];
+          const unit = units[symbol];
           if (power[0].TYPE == quantity) {
             factor /= Math.pow(power[0].QUANTITY, power[1]);
-            power[0] = unitClass;
+            power[0] = unit;
             factor *= Math.pow(power[0].QUANTITY, power[1]);
           }
         }

@@ -6,7 +6,7 @@ module.exports = function () {
   this.addUnit = (Unit) => {
     const type = Unit.TYPE;
     const symbol = Unit.SYMBOL;
-    if (!this.units.hasOwnProperty(type)) {
+    if (!(type in this.units)) {
       this.units[type] = {};
     }
     this.units[type][symbol] = Unit;

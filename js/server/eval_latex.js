@@ -1,7 +1,7 @@
 const app = require('../app/index');
 
 module.exports = latex => {
-  const unitClasses = app.getUnits();
+  const units = app.getUnits();
   latex = latex.replace(/\\ /g, '');
   latex = latex.replace(/\\left\(/g, '(');
   latex = latex.replace(/\\right\)/g, ')');
@@ -19,7 +19,7 @@ module.exports = latex => {
       return '+$$' + JSON.stringify({types: {}, quantity: -1}) + '$$*'
     } else if (isNaN(value)) {
       if (value.toLowerCase() == 'e') return value;
-      return '$$' + JSON.stringify(unitClasses[value].UNITLESS) + '$$';
+      return '$$' + JSON.stringify(units[value].UNITLESS) + '$$';
     } else {
       return '$$' + JSON.stringify({types: {}, quantity: Number(value)}) + '$$';
     }
@@ -65,7 +65,7 @@ const multiplyDivideUnitlesses = (unitless1, sign, unitless2) => {
     unitless1.quantity *= unitless2.quantity;
   }
   for (const type in unitless2.types) {
-    if (!unitless1.types.hasOwnProperty(type)) {
+    if (!(type in unitless1.types)) {
       unitless1.types[type] = (sign == '/' ? -1 : 1) * unitless2.types[type];
     } else {
       unitless1.types[type] += (sign == '/' ? -1 : 1) * unitless2.types[type];
