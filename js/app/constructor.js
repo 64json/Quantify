@@ -1,60 +1,53 @@
-const DerivedUnit = require('../unit/derived_unit');
-
 const {extend} = $;
 
 module.exports = function () {
-  this.unitClasses = {};
+  this.units = {};
 
-  this.addUnitClass = (Unit) => {
+  this.addUnit = (Unit) => {
     const type = Unit.TYPE;
     const symbol = Unit.SYMBOL;
-    if (!this.unitClasses.hasOwnProperty(type)) {
-      this.unitClasses[type] = {};
+    if (!this.units.hasOwnProperty(type)) {
+      this.units[type] = {};
     }
-    this.unitClasses[type][symbol] = Unit;
+    this.units[type][symbol] = Unit;
   };
 
-  this.getUnitClass = (type, symbol) => {
-    return this.unitClasses[type][symbol];
+  this.getUnit = (type, symbol) => {
+    return this.units[type][symbol];
   };
 
   this.getDerivedQuantities = () => {
     const quantities = {};
-    for (const quantityName in this.unitClasses) {
-      const unitClasses = this.unitClasses[quantityName];
-      const unitClass = unitClasses[Object.keys(unitClasses)[0]];
-      if (unitClass.BASE) continue;
+    for (const quantityName in this.units) {
+      const units = this.units[quantityName];
+      const unit = units[Object.keys(units)[0]];
+      if (unit.BASE) continue;
       quantities[quantityName] = {
         name: quantityName,
-        types: unitClass.UNITLESS.types
+        types: unit.UNITLESS.types
       }
     }
     return quantities;
   };
 
-  this.getUnitClasses = (q) => {
-    if (q == true) return this.unitClasses;
-    if (q) return this.unitClasses[q];
-    const unitClasses = {};
-    for (const quantity in this.unitClasses) {
-      extend(true, unitClasses, this.unitClasses[quantity]);
+  this.getUnits = (q) => {
+    if (q == true) return this.units;
+    if (q) return this.units[q];
+    const units = {};
+    for (const quantity in this.units) {
+      extend(true, units, this.units[quantity]);
     }
-    return unitClasses;
+    return units;
   };
 
-  this.getStandardUnitClass = (quantity) => {
-    const unitClasses = this.unitClasses[quantity];
-    for (const symbol in unitClasses) {
-      var unitClass = unitClasses[symbol];
-      if (unitClass.QUANTITY == 1) {
-        if (!unitClass.BASE) {
-          while (unitClass.PARENT !== DerivedUnit) {
-            unitClass = unitClass.PARENT;
-          }
-        }
-        return unitClass;
+  this.getStandardUnit = (quantity) => {
+    const units = this.units[quantity];
+    for (const symbol in units) {
+      let unit = units[symbol];
+      if (unit.STANDARD) {
+        return unit;
       }
     }
-    return unitClasses[Object.keys(unitClasses)[0]];
+    return units[Object.keys(units)[0]];
   }
 };

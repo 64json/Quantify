@@ -11,7 +11,7 @@ class Combination {
   }
 
   calculateCount() {
-    var count = 0;
+    let count = 0;
     for (const type in this.derivedQuantities) {
       count += Math.abs(this.derivedQuantities[type]);
     }
@@ -22,7 +22,7 @@ class Combination {
   }
 
   countDerivedUnits() {
-    var count = 0;
+    let count = 0;
     for (const type in this.derivedQuantities) {
       count += Math.abs(this.derivedQuantities[type]);
     }
@@ -62,8 +62,8 @@ module.exports = (unitless) => {
   const MAX_COMBINATION = 10;
   const queue = [new Combination({}, unitless.types, null)];
   const quantities = app.getDerivedQuantities();
-  var combinations = [];
-  for (var i = 0; i < MAX_COMBINATION; i++) {
+  let combinations = [];
+  for (let i = 0; i < MAX_COMBINATION; i++) {
     combinations.push([]);
   }
   while (queue.length) {
@@ -73,7 +73,7 @@ module.exports = (unitless) => {
       combinations[e.count].push(e);
     }
     if (e.countDerivedUnits() < 4) {
-      var start = e.lastQuantity == null;
+      let start = e.lastQuantity == null;
       for (const quantityName in quantities) {
         if (quantityName == e.lastQuantity) start = true;
         if (!start) continue;
@@ -83,7 +83,7 @@ module.exports = (unitless) => {
       }
     }
   }
-  var plain = [];
+  let plain = [];
   for (const cs of combinations) {
     for (const c of cs) {
       plain.push(c);

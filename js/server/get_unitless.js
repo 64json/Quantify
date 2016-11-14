@@ -1,5 +1,5 @@
 module.exports = (mulClasses, divClasses) => {
-  var quantity = 1;
+  let quantity = 1;
   const types = {};
   mulClasses.forEach(mulClass => {
     quantity *= mulClass.QUANTITY;

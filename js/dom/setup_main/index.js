@@ -2,18 +2,18 @@ const Server = require('../../server');
 const app = require('../../app');
 
 const PER_PAGE = 10;
-var scrollHandler = null;
+let scrollHandler = null;
 
 module.exports = () => {
   const $input = $('#input');
-  var config = {
+  let config = {
     handlers: {
       edit: () => {
         $input.removeClass('active error');
       }
     }
   };
-  var mathField = MQ.MathField($input[0], config);
+  let mathField = MQ.MathField($input[0], config);
   const $equal = $('#equal');
   $equal.click(()=> {
     try {
@@ -27,7 +27,7 @@ module.exports = () => {
         const scrollBottom = $(window).scrollTop() + $(window).height();
         if ($lastContainer.offset().top + $lastContainer.outerHeight() < scrollBottom) {
           console.log('a');
-          var i = 0;
+          let i = 0;
           while (combinations.length) {
             const combination = combinations.shift();
             renderCombination(unitless, combination);
@@ -59,7 +59,7 @@ module.exports = () => {
   });
 
   const $templateUnitWrapper = $('.unit-wrapper.template');
-  const unitClasses = app.getUnitClasses(true);
+  const unitClasses = app.getUnits(true);
   for (const quantity in unitClasses) {
     const $unitWrapper = $templateUnitWrapper.clone();
     $unitWrapper.removeClass('template');
@@ -72,12 +72,12 @@ module.exports = () => {
 };
 
 const renderCombination = (unitless, combination) => {
-  var factor = 1;
+  let factor = 1;
   const powers = [];
 
   for (const quantities of [combination.derivedQuantities, combination.baseQuantities]) {
     for (const quantity in quantities) {
-      const unitClass = app.getStandardUnitClass(quantity);
+      const unitClass = app.getStandardUnit(quantity);
       factor *= Math.pow(unitClass.QUANTITY, quantities[quantity]);
       powers.push([unitClass, quantities[quantity]]);
     }
@@ -90,7 +90,7 @@ const renderCombination = (unitless, combination) => {
   const $answer = $resultContainer.find('.answer');
   $resultContainer.removeClass('template');
   $answer.text(latex);
-  var staticMath = MQ.StaticMath($answer[0]);
+  let staticMath = MQ.StaticMath($answer[0]);
   $resultContainer.insertBefore($templateResultContainer);
   const $templateSelectorWrapper = $resultContainer.find('.selector-wrapper.template');
   for (const [unitClass] of powers) {
@@ -101,7 +101,7 @@ const renderCombination = (unitless, combination) => {
     const $selected = $selectorWrapper.find('.selected');
     $selected.text(unitClass.SYMBOL);
     const $ul = $selectorWrapper.find('ul');
-    const unitClasses = app.getUnitClasses(quantity);
+    const unitClasses = app.getUnits(quantity);
     for (const symbol in unitClasses) {
       const $li = $(`<li>${symbol}</li>`);
       $li.click(function () {
@@ -125,7 +125,7 @@ const renderCombination = (unitless, combination) => {
 };
 
 const getLaTeX = (unitless, factor, powers) => {
-  var mulSymbols = [], divSymbols = [];
+  let mulSymbols = [], divSymbols = [];
   for (const power of powers) {
     if (power[1] > 0) {
       if (power[1] > 1) {
@@ -141,13 +141,13 @@ const getLaTeX = (unitless, factor, powers) => {
       }
     }
   }
-  var value = unitless.quantity / factor;
+  let value = unitless.quantity / factor;
   if (Math.abs(value) > 1e5 || Math.abs(value) < 1e-5) {
     value = value.toExponential(5);
   } else {
     value = value.toPrecision(5);
   }
-  var latex = value + '\\ ' + mulSymbols.join('\\cdot ');
+  let latex = value + '\\ ' + mulSymbols.join('\\cdot ');
   if (divSymbols.length) {
     if (divSymbols.length > 1) {
       latex += ' / (' + divSymbols.join('\\cdot ') + ')';

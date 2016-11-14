@@ -1,11 +1,11 @@
 const app = require('../app/index');
 
 module.exports = latex => {
-  const unitClasses = app.getUnitClasses();
+  const unitClasses = app.getUnits();
   latex = latex.replace(/\\ /g, '');
   latex = latex.replace(/\\left\(/g, '(');
   latex = latex.replace(/\\right\)/g, ')');
-  var replaced = null;
+  let replaced = null;
   while (replaced != latex) {
     latex = replaced || latex;
     replaced = latex;
@@ -87,7 +87,7 @@ const plusUnitlesses = (unitless1, unitless2) => {
 };
 
 const infiniteReplace = (str, src, dst) => {
-  var replaced = null;
+  let replaced = null;
   while (replaced != str) {
     str = replaced || str;
     replaced = str.replace(src, dst);

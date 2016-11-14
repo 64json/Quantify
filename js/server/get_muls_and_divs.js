@@ -1,15 +1,15 @@
 const app = require('../app/index');
 
 module.exports = (mulPairs, divPairs) => {
-  const mulClasses = [];
-  const divClasses = [];
+  const muls = [];
+  const divs = [];
 
   const queue = [];
   mulPairs.forEach(mulPair => {
     const type = mulPair[0];
     const symbol = mulPair[1];
     queue.push({
-      cls: app.getUnitClass(type, symbol),
+      cls: app.getUnit(type, symbol),
       inverse: false
     });
   });
@@ -17,7 +17,7 @@ module.exports = (mulPairs, divPairs) => {
     const type = divPair[0];
     const symbol = divPair[1];
     queue.push({
-      cls: app.getUnitClass(type, symbol),
+      cls: app.getUnit(type, symbol),
       inverse: true
     });
   });
@@ -25,22 +25,22 @@ module.exports = (mulPairs, divPairs) => {
   while (queue.length > 0) {
     const e = queue.shift();
     if (e.cls.BASE) {
-      (e.inverse ? divClasses : mulClasses).push(e.cls);
+      (e.inverse ? divs : muls).push(e.cls);
     } else {
-      e.cls.MULS.forEach(mulClass => {
+      e.cls.MULS.forEach(mul => {
         queue.push({
-          cls: mulClass,
+          cls: mul,
           inverse: e.inverse
         });
       });
-      e.cls.DIVS.forEach(divClass => {
+      e.cls.DIVS.forEach(div => {
         queue.push({
-          cls: divClass,
+          cls: div,
           inverse: !e.inverse
         });
       });
     }
   }
 
-  return {mulClasses, divClasses}
+  return {muls, divs}
 };
