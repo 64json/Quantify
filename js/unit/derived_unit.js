@@ -10,16 +10,26 @@ const DerivedUnit = {
   DIVS: [],
 };
 
-DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, parentSymbol = null) => {
+DerivedUnit.register = (type, name, symbol, quantity, arg1, arg2) => {
+  var parentSymbol, divPairs, mulPairs;
+  if (arg1 && arg2){
+    parentSymbol = null;
+    mulPairs = arg1;
+    divPairs = arg2;
+  } else {
+    parentSymbol = arg1;
+    mulPairs = [];
+    divPairs = [];
+  }
   const ParentUnit = parentSymbol ? app.getUnit(type, parentSymbol) : DerivedUnit;
 
   let {muls, divs} = Server.getMulsAndDivs(mulPairs, divPairs);
   muls = ParentUnit.MULS.concat(muls);
   divs = ParentUnit.DIVS.concat(divs);
 
-  quantity *= ParentUnit.QUANTITY;
   const unitless = Server.getUnitless(muls, divs);
-  unitless.quantity = quantity;
+  if (parentSymbol) unitless.quantity = ParentUnit.QUANTITY * quantity;
+  else unitless.quantity *= quantity;
 
   const Unit = extend(true, {}, DerivedUnit, {
     TYPE: type,
@@ -27,7 +37,7 @@ DerivedUnit.register = (type, name, symbol, mulPairs, divPairs, quantity = 1, pa
     SYMBOL: symbol,
     MULS: muls,
     DIVS: divs,
-    QUANTITY: quantity,
+    QUANTITY: unitless.quantity,
     UNITLESS: unitless,
     STANDARD: parentSymbol == null
   });
@@ -46,7 +56,7 @@ DerivedUnit.registerUncommonSIPrefixes = (type, parentSymbol) => {
 const registerSIPrefixes = (prefixes, type, parentSymbol) => {
   const ParentUnit = app.getUnit(type, parentSymbol);
   for (const [quantity, symbol, name] of prefixes) {
-    DerivedUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, [], [], quantity, parentSymbol);
+    DerivedUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, quantity, [], [], parentSymbol);
   }
 };
 

@@ -11,16 +11,15 @@ const BaseUnit = {
 BaseUnit.register = (type, name, symbol, quantity = 1, parentSymbol = null) => {
   const ParentUnit = parentSymbol ? app.getUnit(type, parentSymbol) : BaseUnit;
 
-  quantity *= ParentUnit.QUANTITY;
   const unitless = {types: {}, quantity: quantity};
   unitless.types[type] = 1;
-  unitless.quantity = quantity;
+  unitless.quantity = ParentUnit.QUANTITY * quantity;
 
   const Unit = extend(true, {}, ParentUnit, {
     TYPE: type,
     NAME: name,
     SYMBOL: symbol,
-    QUANTITY: quantity,
+    QUANTITY: unitless.quantity,
     UNITLESS: unitless,
     STANDARD: parentSymbol == null
   });
