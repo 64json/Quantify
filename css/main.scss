@@ -180,13 +180,27 @@ body {
 
 .unit-container {
   padding: 24px;
+}
+
+#expander {
+  display: none;
+}
+
+#show-all-label {
+  display: none;
+  margin-bottom: 16px;
+}
+
+label {
   cursor: pointer;
-  input {
-    display: none;
-  }
-  input:checked + .units-wrapper ul {
-    display: block;
-  }
+}
+
+#expander:checked + #show-all-label {
+  display: inline-block;
+}
+
+#expander:checked + #show-all-label + .units-wrapper ul {
+  display: block;
 }
 
 .units-wrapper {
@@ -210,6 +224,23 @@ body {
       margin-bottom: 4px;
     }
   }
+}
+
+#show-all + span {
+  font-size: .9em;
+  font-weight: bold;
+}
+
+#show-all {
+  margin: 8px;
+}
+
+.prefixed {
+  display: none;
+}
+
+.show-prefixed .prefixed {
+  display: block;
 }
 
 .github-fork-ribbon:before {

@@ -6,7 +6,7 @@ const current = require('./current');
 const temp = require('./temp');
 const matter = require('./matter');
 const intensity = require('./intensity');
-const storage = require('./storage');
+const fileSize = require('./file_size');
 const energy = require('./energy');
 const pressure = require('./pressure');
 const force = require('./force');
@@ -34,7 +34,7 @@ module.exports = () => {
   temp();
   matter();
   intensity();
-  storage();
+  fileSize();
   energy();
   pressure();
   force();

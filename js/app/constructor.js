@@ -2,14 +2,19 @@ const {extend} = $;
 
 module.exports = function () {
   this.units = {};
+  this.prefixed = [];
 
-  this.addUnit = (Unit) => {
+  this.addUnit = Unit => {
     const type = Unit.TYPE;
     const symbol = Unit.SYMBOL;
     if (!(type in this.units)) {
       this.units[type] = {};
     }
     this.units[type][symbol] = Unit;
+  };
+
+  this.addPrefixed = name => {
+    this.prefixed.push(name);
   };
 
   this.getUnit = (type, symbol) => {
@@ -30,7 +35,7 @@ module.exports = function () {
     return quantities;
   };
 
-  this.getUnits = (q) => {
+  this.getUnits = q => {
     if (q == true) return this.units;
     if (q) return this.units[q];
     const units = {};
@@ -40,7 +45,7 @@ module.exports = function () {
     return units;
   };
 
-  this.getStandardUnit = (quantity) => {
+  this.getStandardUnit = quantity => {
     const units = this.units[quantity];
     for (const symbol in units) {
       let unit = units[symbol];
@@ -49,5 +54,9 @@ module.exports = function () {
       }
     }
     return units[Object.keys(units)[0]];
-  }
+  };
+
+  this.isPrefixed = name => {
+    return ~this.prefixed.indexOf(name);
+  };
 };

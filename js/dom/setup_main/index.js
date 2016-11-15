@@ -39,6 +39,7 @@ module.exports = () => {
           }
         });
       };
+      $('.unit-container #expander').prop('checked', false);
       scrollHandler();
       $(window).scroll(scrollHandler);
 
@@ -64,10 +65,17 @@ module.exports = () => {
     $unitWrapper.removeClass('template');
     $unitWrapper.find('.quantity').text(quantity);
     for (const symbol in units[quantity]) {
-      $unitWrapper.find('ul').append(`<li>${symbol} (${units[quantity][symbol].NAME})</li>`);
+      const unit = units[quantity][symbol];
+      const $li = $(`<li>${symbol} (${unit.NAME})</li>`);
+      if (app.isPrefixed(unit.NAME)) $li.addClass('prefixed');
+      $unitWrapper.find('ul').append($li);
     }
     $unitWrapper.insertBefore($templateUnitWrapper);
   }
+  const $unitContainer = $('.unit-container');
+  $('#show-all').change(function () {
+    $unitContainer.toggleClass('show-prefixed');
+  });
 };
 
 const renderCombination = (unitless, combination) => {

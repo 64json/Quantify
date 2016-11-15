@@ -12,7 +12,7 @@ const DerivedUnit = {
 
 DerivedUnit.register = (type, name, symbol, quantity, arg1, arg2) => {
   var parentSymbol, divPairs, mulPairs;
-  if (arg1 && arg2){
+  if (arg1 && arg2) {
     parentSymbol = null;
     mulPairs = arg1;
     divPairs = arg2;
@@ -43,6 +43,8 @@ DerivedUnit.register = (type, name, symbol, quantity, arg1, arg2) => {
   });
 
   app.addUnit(Unit);
+
+  console.log(type, name);
 };
 
 DerivedUnit.registerCommonSIPrefixes = (type, parentSymbol) => {
@@ -57,6 +59,7 @@ const registerSIPrefixes = (prefixes, type, parentSymbol) => {
   const ParentUnit = app.getUnit(type, parentSymbol);
   for (const [quantity, symbol, name] of prefixes) {
     DerivedUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, quantity, parentSymbol);
+    app.addPrefixed(name + ParentUnit.NAME);
   }
 };
 

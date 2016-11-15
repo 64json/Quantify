@@ -14,8 +14,11 @@ block body
         .input-wrapper
             span#input
             #equal
-    label.container.unit-container
-        input(type='checkbox')
+    label.container.unit-container(for='expander')
+        input#expander(type='checkbox')
+        label(for='show-all')#show-all-label
+            input(type='checkbox')#show-all
+            span Show SI Prefixes
         .units-wrapper
             .unit-wrapper.template
                 span.quantity

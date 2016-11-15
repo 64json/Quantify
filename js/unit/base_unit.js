@@ -25,6 +25,10 @@ BaseUnit.register = (type, name, symbol, quantity = 1, parentSymbol = null) => {
   });
 
   app.addUnit(Unit);
+
+  if (type == 'file size' && !~['bit', 'byte'].indexOf(name)) {
+    app.addPrefixed(name);
+  }
 };
 
 BaseUnit.registerCommonSIPrefixes = (type, parentSymbol) => {
@@ -39,6 +43,7 @@ const registerSIPrefixes = (prefixes, type, parentSymbol) => {
   const ParentUnit = app.getUnit(type, parentSymbol);
   for (const [quantity, symbol, name] of prefixes) {
     BaseUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, quantity, parentSymbol);
+    app.addPrefixed(name + ParentUnit.NAME);
   }
 };
 
