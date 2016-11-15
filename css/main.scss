@@ -59,7 +59,7 @@ body {
   }
   &.error {
     color: white;
-    background: #e53935;
+    background: $red;
   }
 }
 
@@ -250,6 +250,9 @@ label {
 .corrected-container {
   div + div{
     margin-top: 8px;
+  }
+  .error {
+    color: $red;
   }
 }
 

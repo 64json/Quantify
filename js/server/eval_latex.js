@@ -42,7 +42,7 @@ module.exports = latex => {
             selected = unit;
           }
         }
-        if (maxSimilarity < 0.6) throw "No similar unit.";
+        if (maxSimilarity < 0.6) throw `Unit <b>${value}</b> is unknown.`;
         corrected.push([value, selected.SYMBOL]);
       }
       return '$$' + JSON.stringify(selected.UNITLESS) + '$$';
@@ -72,7 +72,7 @@ module.exports = latex => {
 };
 
 const powerUnitlesses = (unitless1, unitless2) => {
-  if (Object.keys(unitless2.types).length) return null;
+  if (Object.keys(unitless2.types).length) throw "Exponent should be a unitless number.";
   const power = unitless2.quantity;
   unitless1.quantity = Math.pow(unitless1.quantity, power);
   for (const type in unitless1.types) {
@@ -104,9 +104,10 @@ const multiplyDivideUnitlesses = (unitless1, sign, unitless2) => {
 };
 
 const plusUnitlesses = (unitless1, unitless2) => {
-  if (Object.keys(unitless1.types).length != Object.keys(unitless2.types).length) return null;
+  const errmsg = "Unable to add/subtract values of different units.";
+  if (Object.keys(unitless1.types).length != Object.keys(unitless2.types).length) throw errmsg;
   for (const type in unitless2.types) {
-    if (unitless2.types[type] != unitless1.types[type]) return null;
+    if (unitless2.types[type] != unitless1.types[type]) throw errmsg;
   }
   unitless1.quantity += unitless2.quantity;
   return '+$$' + JSON.stringify(unitless1) + '$$';

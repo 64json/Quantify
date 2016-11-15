@@ -16,6 +16,7 @@ module.exports = () => {
   let mathField = MQ.MathField($input[0], config);
   const $equal = $('#equal');
   $equal.click(()=> {
+    const $correctedContainer = $('.corrected-container');
     try {
       const {unitless, corrected} = Server.evalLaTeX(mathField.latex());
       const combinations = Server.search(unitless);
@@ -48,7 +49,6 @@ module.exports = () => {
       }, 300);
       $input.addClass('active');
 
-      const $correctedContainer = $('.corrected-container');
       $correctedContainer.empty();
       console.log(corrected);
       for (const [from, to] of corrected) {
@@ -57,6 +57,7 @@ module.exports = () => {
     } catch (err) {
       console.error(err);
       $input.addClass('error');
+      $correctedContainer.append(`<div class="error">${err}</div>`);
     }
   });
   $input.keyup(function (event) {
