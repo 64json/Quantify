@@ -26,7 +26,6 @@ module.exports = () => {
         const $lastContainer = $('.container:not(.template)').last();
         const scrollBottom = $(window).scrollTop() + $(window).height();
         if ($lastContainer.offset().top + $lastContainer.outerHeight() < scrollBottom) {
-          console.log('a');
           let i = 0;
           while (combinations.length) {
             const combination = combinations.shift();
