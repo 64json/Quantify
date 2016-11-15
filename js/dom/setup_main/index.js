@@ -17,7 +17,7 @@ module.exports = () => {
   const $equal = $('#equal');
   $equal.click(()=> {
     try {
-      const unitless = Server.evalLaTeX(mathField.latex());
+      const {unitless, corrected} = Server.evalLaTeX(mathField.latex());
       const combinations = Server.search(unitless);
       $('.result-container:not(.template)').remove();
 
@@ -47,6 +47,13 @@ module.exports = () => {
         scrollTop: $('.search-container').offset().top
       }, 300);
       $input.addClass('active');
+
+      const $correctedContainer = $('.corrected-container');
+      $correctedContainer.empty();
+      console.log(corrected);
+      for (const [from, to] of corrected) {
+        $correctedContainer.append(`<div>Unit <b>${from}</b> has been corrected to <b>${to}</b>.</div>`);
+      }
     } catch (err) {
       console.error(err);
       $input.addClass('error');

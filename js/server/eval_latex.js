@@ -1,6 +1,7 @@
 const app = require('../app/index');
 
 module.exports = latex => {
+  const corrected = [];
   const units = app.getUnits();
   latex = latex.replace(/\\ /g, '');
   latex = latex.replace(/\\left\(/g, '(');
@@ -18,8 +19,33 @@ module.exports = latex => {
     if (value == '-') {
       return '+$$' + JSON.stringify({types: {}, quantity: -1}) + '$$*'
     } else if (isNaN(value)) {
-      if (value.toLowerCase() == 'e') return value;
-      return '$$' + JSON.stringify(units[value].UNITLESS) + '$$';
+      let selected = null;
+      if (value in units) {
+        selected = units[value];
+      } else {
+        for (const symbol in units) {
+          const unit = units[symbol];
+          if (unit.NAME == value) {
+            selected = unit;
+            break;
+          }
+        }
+      }
+      if (!selected) {
+        let maxSimilarity = 0;
+        const value_ = value.toLowerCase();
+        for (const symbol in units) {
+          const unit = units[symbol];
+          const max = Math.max(similarity(value_, symbol.toLowerCase()), similarity(value_, unit.NAME.toLowerCase()));
+          if (maxSimilarity < max) {
+            maxSimilarity = max;
+            selected = unit;
+          }
+        }
+        if (maxSimilarity < 0.6) throw "No similar unit.";
+        corrected.push([value, selected.SYMBOL]);
+      }
+      return '$$' + JSON.stringify(selected.UNITLESS) + '$$';
     } else {
       return '$$' + JSON.stringify({types: {}, quantity: Number(value)}) + '$$';
     }
@@ -42,7 +68,7 @@ module.exports = latex => {
       return content;
     });
 
-  return JSON.parse(latex.split('$$')[1]);
+  return {unitless: JSON.parse(latex.split('$$')[1]), corrected};
 };
 
 const powerUnitlesses = (unitless1, unitless2) => {
@@ -93,4 +119,47 @@ const infiniteReplace = (str, src, dst) => {
     replaced = str.replace(src, dst);
   }
   return str;
+};
+
+
+/**
+ * http://stackoverflow.com/questions/10473745/compare-strings-javascript-return-of-likely
+ */
+
+const similarity = (s1, s2) => {
+  let longer = s1;
+  let shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  const longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+};
+
+const editDistance = (s1, s2) => {
+  const costs = [];
+  for (let i = 0; i <= s1.length; i++) {
+    let lastValue = i;
+    for (let j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          let newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+                costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
 };

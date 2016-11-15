@@ -14,7 +14,8 @@ block body
         .input-wrapper
             span#input
             #equal
-    label.container.unit-container(for='expander')
+    .container.corrected-container.less-padding
+    label.container.unit-container.less-padding(for='expander')
         input#expander(type='checkbox')
         label(for='show-all')#show-all-label
             input(type='checkbox')#show-all
@@ -23,7 +24,6 @@ block body
             .unit-wrapper.template
                 span.quantity
                 ul
-
     .container.result-container.template
         .answer
         .variation-wrapper

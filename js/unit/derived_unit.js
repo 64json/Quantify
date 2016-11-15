@@ -11,7 +11,7 @@ const DerivedUnit = {
 };
 
 DerivedUnit.register = (type, name, symbol, quantity, arg1, arg2) => {
-  var parentSymbol, divPairs, mulPairs;
+  let parentSymbol, divPairs, mulPairs;
   if (arg1 && arg2) {
     parentSymbol = null;
     mulPairs = arg1;
@@ -43,8 +43,6 @@ DerivedUnit.register = (type, name, symbol, quantity, arg1, arg2) => {
   });
 
   app.addUnit(Unit);
-
-  console.log(type, name);
 };
 
 DerivedUnit.registerCommonSIPrefixes = (type, parentSymbol) => {

@@ -178,7 +178,7 @@ body {
   }
 }
 
-.unit-container {
+.less-padding {
   padding: 24px;
 }
 
@@ -241,6 +241,16 @@ label {
 
 .show-prefixed .prefixed {
   display: block;
+}
+
+.corrected-container:empty {
+  display: none;
+}
+
+.corrected-container {
+  div + div{
+    margin-top: 8px;
+  }
 }
 
 .github-fork-ribbon:before {
