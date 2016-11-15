@@ -56,7 +56,7 @@ DerivedUnit.registerUncommonSIPrefixes = (type, parentSymbol) => {
 const registerSIPrefixes = (prefixes, type, parentSymbol) => {
   const ParentUnit = app.getUnit(type, parentSymbol);
   for (const [quantity, symbol, name] of prefixes) {
-    DerivedUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, quantity, [], [], parentSymbol);
+    DerivedUnit.register(type, name + ParentUnit.NAME, symbol + ParentUnit.SYMBOL, quantity, parentSymbol);
   }
 };
 
