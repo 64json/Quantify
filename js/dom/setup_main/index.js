@@ -57,6 +57,7 @@ module.exports = () => {
     } catch (err) {
       console.error(err);
       $input.addClass('error');
+      $correctedContainer.empty();
       $correctedContainer.append(`<div class="error">${err}</div>`);
     }
   });

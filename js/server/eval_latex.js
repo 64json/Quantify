@@ -68,6 +68,7 @@ module.exports = latex => {
       return content;
     });
 
+  if (!latex) throw "Input any number with unit or equation.";
   return {unitless: JSON.parse(latex.split('$$')[1]), corrected};
 };
 
@@ -86,6 +87,7 @@ const powerUnitlesses = (unitless1, unitless2) => {
 
 const multiplyDivideUnitlesses = (unitless1, sign, unitless2) => {
   if (sign == '/') {
+    if (unitless2.quantity == 0) throw "Nothing can be divided by zero.";
     unitless1.quantity /= unitless2.quantity;
   } else {
     unitless1.quantity *= unitless2.quantity;
