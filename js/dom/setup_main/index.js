@@ -144,7 +144,7 @@ const getLaTeX = (unitless, factor, powers) => {
   if (Math.abs(value) > 1e5 || Math.abs(value) < 1e-5) {
     value = value.toExponential(5);
   } else {
-    value = value.toPrecision(5);
+    value = value.toPrecision(6);
   }
   let latex = value + '\\ ' + mulSymbols.join('\\cdot ');
   if (divSymbols.length) {
